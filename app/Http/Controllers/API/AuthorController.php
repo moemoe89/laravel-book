@@ -14,9 +14,25 @@ class AuthorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $orderBy = $request->order_by ?: 'id';
+        $sort = $request->sort ?: 'desc';
+        $isPaginate = $request->is_paginate;
+        $perPage = $request->per_page;
+        $selectField = str_replace(' ', '', $request->select_field) ?: 'id,name,created_at,updated_at';
+        $fields = explode(',', $selectField);
+
+        $query = Author::orderBy($orderBy, $sort);
+
+        if($isPaginate == 'true')
+        {
+            $data = $query->paginate($perPage, $fields);
+        } else {
+            $data = $query->limit($perPage)->get($fields);
+        }
+        
+        return $this->sendResponse(200, true, 'Author retrieved successfully', null, $data);
     }
 
     /**
