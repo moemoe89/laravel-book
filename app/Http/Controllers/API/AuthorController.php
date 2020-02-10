@@ -25,7 +25,7 @@ class AuthorController extends Controller
 
         $query = Author::orderBy($orderBy, $sort);
 
-        if($isPaginate == 'true')
+        if ($isPaginate == 'true')
         {
             $data = $query->paginate($perPage, $fields);
         } else {
@@ -49,7 +49,7 @@ class AuthorController extends Controller
             'name' => 'required|max:255'
         ]);
    
-        if($validator->fails()){
+        if ($validator->fails()){
             return $this->sendResponse(400, false, 'There\'s something wrong with your request', $validator->errors(), null);       
         }
    
@@ -64,9 +64,24 @@ class AuthorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        if (!is_numeric($id))
+        {
+            return $this->sendResponse(404, false, 'Author not found', null, null);
+        }
+
+        $selectField = str_replace(' ', '', $request->select_field) ?: 'id,name,created_at,updated_at';
+        $fields = explode(',', $selectField);
+
+        $data = Author::find($id, $fields);
+
+        if (is_null($data))
+        {
+            return $this->sendResponse(404, false, 'Author not found', null, null);
+        }
+
+        return $this->sendResponse(200, true, 'Author retrieved successfully', null, $data);
     }
 
     /**
