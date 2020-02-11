@@ -106,6 +106,12 @@ class AuthorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (!is_numeric($id))
+        {
+            return $this->sendResponse(404, false, 'Author not found', null, null);
+        }
+        
+        Author::where('id', $id)->delete();
+        return $this->sendResponse(200, true, 'Author deleted successfully', null, null);
     }
 }
