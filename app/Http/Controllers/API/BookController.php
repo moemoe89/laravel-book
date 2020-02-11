@@ -66,7 +66,19 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        //
+        if (!is_numeric($id))
+        {
+            return $this->sendResponse(404, false, 'Book not found', null, null);
+        }
+
+        $data = Book::with('author')->find($id);
+
+        if (is_null($data))
+        {
+            return $this->sendResponse(404, false, 'Book not found', null, null);
+        }
+
+        return $this->sendResponse(200, true, 'Book retrieved successfully', null, $data);
     }
 
     /**

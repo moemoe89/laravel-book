@@ -205,4 +205,57 @@ describe('Book API Test', function() {
       expect(response.body.errors).to.equal(null)
     })
   })
+
+  it('detail', function() {
+    const baseURL = Constants.URL
+    const statusCode = 200
+    const id = authorID
+ 
+    cy.request({
+      method: 'GET',
+      url: `${baseURL}/api/v1/book/${id}`
+    }).then(function(response){
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(true)
+      expect(response.body.message).to.equal('Book retrieved successfully')
+      expect(response.body.errors).to.equal(null)
+      expect(response.body.data.id).to.equal(id)
+    })
+
+  })
+
+  it('detail-id-not-int', function() {
+    const baseURL = Constants.URL
+    const statusCode = 404
+
+    cy.request({
+      method: 'GET',
+      url: `${baseURL}/api/v1/book/a`,
+      failOnStatusCode: false
+    }).then(function(response){
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('Book not found')
+      expect(response.body.errors).to.equal(null)
+    })
+  })
+
+  it('detail-not-found', function() {
+    const baseURL = Constants.URL
+    const statusCode = 404
+
+    cy.request({
+      method: 'GET',
+      url: `${baseURL}/api/v1/book/1000000`,
+      failOnStatusCode: false
+    }).then(function(response){
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('Book not found')
+      expect(response.body.errors).to.equal(null)
+    })
+  })
 })
