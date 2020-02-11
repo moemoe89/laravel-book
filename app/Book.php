@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
    
-class Author extends Model
+class Book extends Model
 {
 	use SoftDeletes;
     /**
@@ -14,13 +14,14 @@ class Author extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'author_id',
+        'title'
     ];
 
     public static function fields() {
         return [
             'id',
-        	'name',
+        	'title',
         	'created_at',
         	'updated_at'
         ];

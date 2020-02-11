@@ -1,6 +1,8 @@
 import Constants from '../support/constant'
 
 describe('Author API Test', function() {
+  let authorID;
+
   it('create', function() {
     const baseURL = Constants.URL
     const statusCode = 201
@@ -24,6 +26,7 @@ describe('Author API Test', function() {
       expect(response.body).have.property('message')
       expect(response.body).have.property('data')
       expect(response.body.data).to.have.property('name', name)
+      authorID = response.body.data.id
     })
   })
 
@@ -89,37 +92,18 @@ describe('Author API Test', function() {
   it('detail', function() {
     const baseURL = Constants.URL
     const statusCode = 200
-    const rand = new Date().getTime()
-    const name = `Test Detail ${rand}`
+    const id = authorID
  
-    function getAddedID() {
-      return cy.request({
-        method: 'POST',
-        url: `${baseURL}/api/v1/author`,
-        body: {
-          'name': name
-        },
-        headers: {
-          'content-type': 'application/json'
-        }
-      }).then(function(response){
-        return response
-      })
-    }
+    cy.request({
+      method: 'GET',
+      url: `${baseURL}/api/v1/author/${id}`
+    }).then(function(response){
+      expect(response.status).to.eq(statusCode)
+      expect(response.body).to.have.property('status', statusCode)
+      expect(response.body).to.have.property('success', true)
+      expect(response.body).to.have.property('errors', null)
+    })
 
-    getAddedID()
-    .then(data => {
-      const id = data.body.data.id
-      cy.request({
-        method: 'GET',
-        url: `${baseURL}/api/v1/author/${id}`
-      }).then(function(response){
-        expect(response.status).to.eq(statusCode)
-        expect(response.body).to.have.property('status', statusCode)
-        expect(response.body).to.have.property('success', true)
-        expect(response.body).to.have.property('errors', null)
-      })
-    });    
   })
 
   it('detail-id-not-int', function() {
@@ -154,103 +138,31 @@ describe('Author API Test', function() {
     })
   })
 
-  it('delete', function() {
-    const baseURL = Constants.URL
-    const statusCode = 200
-    const rand = new Date().getTime()
-    const name = `Test Detail ${rand}`
- 
-    function getAddedID() {
-      return cy.request({
-        method: 'POST',
-        url: `${baseURL}/api/v1/author`,
-        body: {
-          'name': name
-        },
-        headers: {
-          'content-type': 'application/json'
-        }
-      }).then(function(response){
-        return response
-      })
-    }
-
-    getAddedID()
-    .then(data => {
-      const id = data.body.data.id
-      cy.request({
-        method: 'DELETE',
-        url: `${baseURL}/api/v1/author/${id}`
-      }).then(function(response){
-        expect(response.status).to.eq(statusCode)
-        expect(response.body).to.have.property('status', statusCode)
-        expect(response.body).to.have.property('success', true)
-        expect(response.body).to.have.property('errors', null)
-      })
-    });    
-  })
-
-  it('delete-id-not-int', function() {
-    const baseURL = Constants.URL
-    const statusCode = 404
-
-    cy.request({
-      method: 'DELETE',
-      url: `${baseURL}/api/v1/author/a`,
-      failOnStatusCode: false
-    }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', false)
-      expect(response.body).to.have.property('errors', null)
-    })
-  })
-
   it('update', function() {
     const baseURL = Constants.URL
     const statusCode = 200
     const rand = new Date().getTime()
-    const name = `Test Update ${rand}`
+    const name = `Test Name ${rand}`
+    const id = authorID
 
-    function getAddedID() {
-      return cy.request({
-        method: 'POST',
-        url: `${baseURL}/api/v1/author`,
-        body: {
-          'name': name
-        },
-        headers: {
-          'content-type': 'application/json'
-        }
-      }).then(function(response){
-        return response
-      })
-    }
-
-    const nameUpdate = `Test Update ${rand}`
-
-    getAddedID()
-    .then(data => {
-      const id = data.body.data.id
-      cy.request({
-        method: 'PUT',
-        url: `${baseURL}/api/v1/author/${id}`,
-        body: {
-          'name': nameUpdate
-        },
-        headers: {
-          'content-type': 'application/json'
-        }
-      }).then(function(response){
-        expect(response.status).to.eq(statusCode)
-        expect(response.body).to.have.property('status', statusCode)
-        expect(response.body).to.have.property('success', true)
-        expect(response.body).to.have.property('errors', null)
-        expect(response.body).have.property('message')
-        expect(response.body).have.property('data')
-        expect(response.body.data).to.have.property('name', nameUpdate)
-      })
-    });    
+    cy.request({
+      method: 'PUT',
+      url: `${baseURL}/api/v1/author/${id}`,
+      body: {
+        'name': name
+      },
+      headers: {
+        'content-type': 'application/json'
+      }
+    }).then(function(response){
+      expect(response.status).to.eq(statusCode)
+      expect(response.body).to.have.property('status', statusCode)
+      expect(response.body).to.have.property('success', true)
+      expect(response.body).to.have.property('errors', null)
+      expect(response.body).have.property('message')
+      expect(response.body).have.property('data')
+      expect(response.body.data).to.have.property('name', name)
+    })
   })
 
   it('update-name-empty', function() {
@@ -316,6 +228,38 @@ describe('Author API Test', function() {
       expect(response.status).to.eq(statusCode)
       expect(response.body).to.have.property('status', statusCode)
       expect(response.body).to.have.property('success', false)
+    })
+  })
+
+  it('delete', function() {
+    const baseURL = Constants.URL
+    const statusCode = 200
+    const id = authorID
+ 
+    cy.request({
+      method: 'DELETE',
+      url: `${baseURL}/api/v1/author/${id}`
+    }).then(function(response){
+      expect(response.status).to.eq(statusCode)
+      expect(response.body).to.have.property('status', statusCode)
+      expect(response.body).to.have.property('success', true)
+      expect(response.body).to.have.property('errors', null)
+    })  
+  })
+
+  it('delete-id-not-int', function() {
+    const baseURL = Constants.URL
+    const statusCode = 404
+
+    cy.request({
+      method: 'DELETE',
+      url: `${baseURL}/api/v1/author/a`,
+      failOnStatusCode: false
+    }).then(function(response){
+      expect(response.status).to.eq(statusCode)
+      expect(response.body).to.have.property('status', statusCode)
+      expect(response.body).to.have.property('success', false)
+      expect(response.body).to.have.property('errors', null)
     })
   })
 })

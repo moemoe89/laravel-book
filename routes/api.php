@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'v1'], function () {
  	Route::apiResource('author', 'API\AuthorController');
+ 	Route::apiResource('book', 'API\BookController');
 });
