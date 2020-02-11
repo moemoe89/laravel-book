@@ -189,4 +189,20 @@ describe('Book API Test', function() {
       expect(response.body.data).to.equal(null)
     })
   })
+
+  it('list', function() {
+    const baseURL = Constants.URL
+    const statusCode = 200
+
+    cy.request({
+      method: 'GET',
+      url: `${baseURL}/api/v1/book`
+    }).then(function(response){
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(true)
+      expect(response.body.message).to.equal('Book retrieved successfully')
+      expect(response.body.errors).to.equal(null)
+    })
+  })
 })

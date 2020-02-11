@@ -26,4 +26,8 @@ class Book extends Model
         	'updated_at'
         ];
     }
+
+    public function author() {
+        return $this->hasOne(Author::class, 'id', 'author_id');
+    }
 }

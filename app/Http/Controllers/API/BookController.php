@@ -14,9 +14,24 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->search;
+        $orderBy = checkInArr($request->order_by, Book::fields()) ?: 'id';
+        $sort = $request->sort ?: 'desc';
+        $isPaginate = $request->is_paginate;
+        $perPage = $request->per_page;
+      
+        $query = Book::with('author')->where('title', 'ilike', '%'.$search.'%')->orderBy($orderBy, $sort);
+
+        if ($isPaginate == 'true')
+        {
+            $data = $query->paginate($perPage);
+        } else {
+            $data = $query->limit($perPage)->get();
+        }
+        
+        return $this->sendResponse(200, true, 'Book retrieved successfully', null, $data);
     }
 
     /**
