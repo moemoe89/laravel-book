@@ -90,7 +90,34 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (!is_numeric($id))
+        {
+            return $this->sendResponse(404, false, 'Book not found', null, null);
+        }
+
+        $input = $request->all();
+   
+        $validator = Validator::make($input, [
+            'author_id' => 'required|integer|exists:authors,id',
+            'title' => 'required|max:255'
+        ]);
+   
+        if ($validator->fails()){
+            return $this->sendResponse(400, false, 'There\'s something wrong with your request', $validator->errors(), null);       
+        }
+
+        $data = Book::find($id);
+
+        if (is_null($data))
+        {
+            return $this->sendResponse(404, false, 'Book not found', null, null);
+        }
+   
+        $data['author_id'] = $input['author_id'];
+        $data['title'] = $input['title'];
+        $data->save();
+   
+        return $this->sendResponse(200, true, 'Book updated successfully', null, $data);
     }
 
     /**

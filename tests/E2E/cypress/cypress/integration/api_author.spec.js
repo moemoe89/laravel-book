@@ -152,7 +152,7 @@ describe('Author API Test', function() {
     const baseURL = Constants.URL
     const statusCode = 200
     const rand = new Date().getTime()
-    const name = `Test Name ${rand}`
+    const name = `Test Name Update ${rand}`
     const id = authorID
 
     cy.request({
