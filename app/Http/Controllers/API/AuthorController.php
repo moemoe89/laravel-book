@@ -16,14 +16,16 @@ class AuthorController extends Controller
      */
     public function index(Request $request)
     {
-        $orderBy = $request->order_by ?: 'id';
+        $search = $request->search;
+        $orderBy = checkInArr($request->order_by, Author::fields()) ?: 'id';
         $sort = $request->sort ?: 'desc';
         $isPaginate = $request->is_paginate;
         $perPage = $request->per_page;
         $selectField = str_replace(' ', '', $request->select_field) ?: 'id,name,created_at,updated_at';
         $fields = explode(',', $selectField);
+        $fields = checkArrInArr($fields, Author::fields());
 
-        $query = Author::orderBy($orderBy, $sort);
+        $query = Author::where('name', 'ilike', '%'.$search.'%')->orderBy($orderBy, $sort);
 
         if ($isPaginate == 'true')
         {
