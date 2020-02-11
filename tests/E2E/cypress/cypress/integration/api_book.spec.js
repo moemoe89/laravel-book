@@ -480,4 +480,54 @@ describe('Book API Test', function() {
       expect(response.body.data).to.equal(null)
     })
   })
+
+  it('delete', function() {
+    const baseURL = Constants.URL
+    const statusCode = 200
+    const id = bookID
+ 
+    cy.request({
+      method: 'DELETE',
+      url: `${baseURL}/api/v1/book/${id}`
+    }).then(function(response){
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(true)
+      expect(response.body.errors).to.equal(null)
+    })  
+  })
+
+  it('delete-id-not-int', function() {
+    const baseURL = Constants.URL
+    const statusCode = 404
+
+    cy.request({
+      method: 'DELETE',
+      url: `${baseURL}/api/v1/book/a`,
+      failOnStatusCode: false
+    }).then(function(response){
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('Book not found')
+      expect(response.body.errors).to.equal(null)
+      expect(response.body.data).to.equal(null)
+    })
+  })
+
+  it('delete-author', function() {
+    const baseURL = Constants.URL
+    const statusCode = 200
+    const id = authorID
+ 
+    cy.request({
+      method: 'DELETE',
+      url: `${baseURL}/api/v1/author/${id}`
+    }).then(function(response){
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(true)
+      expect(response.body.errors).to.equal(null)
+    })  
+  })
 })

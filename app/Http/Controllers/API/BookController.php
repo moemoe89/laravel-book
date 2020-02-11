@@ -128,6 +128,12 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (!is_numeric($id))
+        {
+            return $this->sendResponse(404, false, 'Book not found', null, null);
+        }
+
+        Book::where('id', $id)->delete();
+        return $this->sendResponse(200, true, 'Book deleted successfully', null, null);
     }
 }
