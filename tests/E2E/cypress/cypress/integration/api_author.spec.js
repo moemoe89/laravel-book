@@ -1,7 +1,7 @@
 import Constants from '../support/constant'
 
 describe('Author API Test', function() {
-  let authorID;
+  let authorID
 
   it('create', function() {
     const baseURL = Constants.URL
@@ -19,13 +19,12 @@ describe('Author API Test', function() {
         'content-type': 'application/json'
       }
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', true)
-      expect(response.body).to.have.property('errors', null)
-      expect(response.body).have.property('message')
-      expect(response.body).have.property('data')
-      expect(response.body.data).to.have.property('name', name)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(true)
+      expect(response.body.message).to.equal('Author created successfully')
+      expect(response.body.errors).to.equal(null)
+      expect(response.body.data.name).to.equal(name)
       authorID = response.body.data.id
     })
   })
@@ -46,9 +45,12 @@ describe('Author API Test', function() {
         'content-type': 'application/json'
       }
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', false)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('There\'s something wrong with your request')
+      expect(response.body.errors.name[0]).to.equal('The name field is required.')
+      expect(response.body.data).to.equal(null)
     })
   })
 
@@ -68,9 +70,12 @@ describe('Author API Test', function() {
         'content-type': 'application/json'
       }
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', false)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('There\'s something wrong with your request')
+      expect(response.body.errors.name[0]).to.equal('The name may not be greater than 255 characters.')
+      expect(response.body.data).to.equal(null)
     })
   })
 
@@ -82,10 +87,11 @@ describe('Author API Test', function() {
       method: 'GET',
       url: `${baseURL}/api/v1/author`
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', true)
-      expect(response.body).to.have.property('errors', null)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(true)
+      expect(response.body.message).to.equal('Author retrieved successfully')
+      expect(response.body.errors).to.equal(null)
     })
   })
 
@@ -98,10 +104,12 @@ describe('Author API Test', function() {
       method: 'GET',
       url: `${baseURL}/api/v1/author/${id}`
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', true)
-      expect(response.body).to.have.property('errors', null)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(true)
+      expect(response.body.message).to.equal('Author retrieved successfully')
+      expect(response.body.errors).to.equal(null)
+      expect(response.body.data.id).to.equal(id)
     })
 
   })
@@ -115,10 +123,11 @@ describe('Author API Test', function() {
       url: `${baseURL}/api/v1/author/a`,
       failOnStatusCode: false
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', false)
-      expect(response.body).to.have.property('errors', null)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('Author not found')
+      expect(response.body.errors).to.equal(null)
     })
   })
 
@@ -131,10 +140,11 @@ describe('Author API Test', function() {
       url: `${baseURL}/api/v1/author/1000000`,
       failOnStatusCode: false
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', false)
-      expect(response.body).to.have.property('errors', null)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('Author not found')
+      expect(response.body.errors).to.equal(null)
     })
   })
 
@@ -155,13 +165,12 @@ describe('Author API Test', function() {
         'content-type': 'application/json'
       }
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', true)
-      expect(response.body).to.have.property('errors', null)
-      expect(response.body).have.property('message')
-      expect(response.body).have.property('data')
-      expect(response.body.data).to.have.property('name', name)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(true)
+      expect(response.body.errors).to.equal(null)
+      expect(response.body.message).to.equal('Author updated successfully')
+      expect(response.body.data.name).to.equal(name)
     })
   })
 
@@ -181,9 +190,12 @@ describe('Author API Test', function() {
         'content-type': 'application/json'
       }
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', false)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('There\'s something wrong with your request')
+      expect(response.body.errors.name[0]).to.equal('The name field is required.')
+      expect(response.body.data).to.equal(null)
     })
   })
 
@@ -203,9 +215,12 @@ describe('Author API Test', function() {
         'content-type': 'application/json'
       }
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', false)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('There\'s something wrong with your request')
+      expect(response.body.errors.name[0]).to.equal('The name may not be greater than 255 characters.')
+      expect(response.body.data).to.equal(null)
     })
   })
 
@@ -225,9 +240,37 @@ describe('Author API Test', function() {
         'content-type': 'application/json'
       }
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', false)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('Author not found')
+      expect(response.body.errors).to.equal(null)
+      expect(response.body.data).to.equal(null)
+    })
+  })
+
+  it('update-not-integer', function() {
+    const baseURL = Constants.URL
+    const statusCode = 404
+    const name = 'Update name author'
+
+    cy.request({
+      method: 'PUT',
+      url: `${baseURL}/api/v1/author/a`,
+      failOnStatusCode: false,
+      body: {
+        'name': name
+      },
+      headers: {
+        'content-type': 'application/json'
+      }
+    }).then(function(response){
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('Author not found')
+      expect(response.body.errors).to.equal(null)
+      expect(response.body.data).to.equal(null)
     })
   })
 
@@ -240,10 +283,10 @@ describe('Author API Test', function() {
       method: 'DELETE',
       url: `${baseURL}/api/v1/author/${id}`
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', true)
-      expect(response.body).to.have.property('errors', null)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(true)
+      expect(response.body.errors).to.equal(null)
     })  
   })
 
@@ -256,10 +299,12 @@ describe('Author API Test', function() {
       url: `${baseURL}/api/v1/author/a`,
       failOnStatusCode: false
     }).then(function(response){
-      expect(response.status).to.eq(statusCode)
-      expect(response.body).to.have.property('status', statusCode)
-      expect(response.body).to.have.property('success', false)
-      expect(response.body).to.have.property('errors', null)
+      expect(response.status).to.equal(statusCode)
+      expect(response.body.status).to.equal(statusCode)
+      expect(response.body.success).to.equal(false)
+      expect(response.body.message).to.equal('Author not found')
+      expect(response.body.errors).to.equal(null)
+      expect(response.body.data).to.equal(null)
     })
   })
 })
