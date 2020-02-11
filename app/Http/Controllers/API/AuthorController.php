@@ -95,7 +95,32 @@ class AuthorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (!is_numeric($id))
+        {
+            return $this->sendResponse(404, false, 'Author not found', null, null);
+        }
+
+        $input = $request->all();
+   
+        $validator = Validator::make($input, [
+            'name' => 'required|max:255'
+        ]);
+   
+        if ($validator->fails()){
+            return $this->sendResponse(400, false, 'There\'s something wrong with your request', $validator->errors(), null);       
+        }
+
+        $data = Author::find($id);
+
+        if (is_null($data))
+        {
+            return $this->sendResponse(404, false, 'Author not found', null, null);
+        }
+   
+        $data['name'] = $input['name'];
+        $data->save();
+   
+        return $this->sendResponse(200, true, 'Author updated successfully', null, $data);
     }
 
     /**
@@ -110,7 +135,7 @@ class AuthorController extends Controller
         {
             return $this->sendResponse(404, false, 'Author not found', null, null);
         }
-        
+
         Author::where('id', $id)->delete();
         return $this->sendResponse(200, true, 'Author deleted successfully', null, null);
     }
