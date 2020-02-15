@@ -1,0 +1,786 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Book API swagger documentation",
+        "description": "This is a documentation for Book API",
+        "termsOfService": "http:\\/\\/swagger.io\\/terms\\/",
+        "contact": {
+            "email": "bismobaruno@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http:\\/\\/www.apache.org\\/licenses\\/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/author": {
+            "get": {
+                "tags": [
+                    "Author API"
+                ],
+                "summary": "Author list",
+                "description": "API for getting Author list, can return with/out pagination, filter selected column, sort by column",
+                "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order_by",
+                        "in": "query",
+                        "description": "Order by column",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort by asc/desc",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "is_paginate",
+                        "in": "query",
+                        "description": "Paginate the data",
+                        "schema": {
+                            "type": "string",
+                            "default": "true",
+                            "enum": [
+                                "true",
+                                "false"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Limit data per page",
+                        "schema": {
+                            "type": "string",
+                            "default": "15"
+                        }
+                    },
+                    {
+                        "name": "select_field",
+                        "in": "query",
+                        "description": "Selected column of the data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success getting data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "success": true,
+                                    "message": "Author retrieved successfully",
+                                    "errors": null,
+                                    "data": {
+                                        "current_page": 1,
+                                        "data": [
+                                            {
+                                                "id": 5,
+                                                "name": "Fujiko F Fujio",
+                                                "created_at": "2020-02-15 11:58:35",
+                                                "updated_at": "2020-02-15 11:58:35"
+                                            },
+                                            {
+                                                "id": 2,
+                                                "name": "Takeshi Maekawa",
+                                                "created_at": "2020-02-11 22:23:33",
+                                                "updated_at": "2020-02-11 22:23:35"
+                                            },
+                                            {
+                                                "id": 1,
+                                                "name": "Masashi Ueda",
+                                                "created_at": "2020-02-11 22:23:08",
+                                                "updated_at": "2020-02-15 10:48:35"
+                                            }
+                                        ],
+                                        "first_page_url": "http:\\/\\/localhost:8000\\/api\\/v1\\/author?page=1",
+                                        "from": 1,
+                                        "last_page": 1,
+                                        "last_page_url": "http:\\/\\/localhost:8000\\/api\\/v1\\/author?page=1",
+                                        "next_page_url": null,
+                                        "path": "http:\\/\\/localhost:8000\\/api\\/v1\\/author",
+                                        "per_page": "15",
+                                        "prev_page_url": null,
+                                        "to": 3,
+                                        "total": 3
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Author API"
+                ],
+                "summary": "Author create",
+                "description": "API for creating Author",
+                "operationId": "store",
+                "requestBody": {
+                    "request": "Author",
+                    "description": "Author object that needs to be added to the body",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {},
+                            "example": {
+                                "name": "Fujiko F Fujio"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success creating data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 201,
+                                    "success": true,
+                                    "message": "Author created successfully",
+                                    "errors": null,
+                                    "data": {
+                                        "name": "Fujiko F Fujio",
+                                        "updated_at": "2020-02-15 11:58:35",
+                                        "created_at": "2020-02-15 11:58:35",
+                                        "id": 5
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 400,
+                                    "success": false,
+                                    "message": "There's something wrong with your request",
+                                    "errors": {
+                                        "name": [
+                                            "The name field is required."
+                                        ]
+                                    },
+                                    "data": null
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/author/{id}": {
+            "get": {
+                "tags": [
+                    "Author API"
+                ],
+                "summary": "Author detail",
+                "description": "API for getting Author detail, filter selected column",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Author ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "select_field",
+                        "in": "query",
+                        "description": "Selected column of the data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success getting data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "success": true,
+                                    "message": "Author retrieved successfully",
+                                    "errors": null,
+                                    "data": {
+                                        "id": 1,
+                                        "name": "Masashi Ueda",
+                                        "created_at": "2020-02-11 22:23:08",
+                                        "updated_at": "2020-02-15 10:48:35"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 404,
+                                    "success": false,
+                                    "message": "Author not found",
+                                    "errors": null,
+                                    "data": null
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Author API"
+                ],
+                "summary": "Author update",
+                "description": "API for updating Author",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Author ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "request": "Author",
+                    "description": "Author object that needs to be added to the body",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {},
+                            "example": {
+                                "name": "Fujiko F Fujio"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success updating data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "success": true,
+                                    "message": "Author updated successfully",
+                                    "errors": null,
+                                    "data": {
+                                        "id": 5,
+                                        "name": "Fujiko F Fujio",
+                                        "created_at": "2020-02-15 11:58:35",
+                                        "updated_at": "2020-02-15 11:58:35",
+                                        "deleted_at": null
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 400,
+                                    "success": false,
+                                    "message": "There's something wrong with your request",
+                                    "errors": {
+                                        "name": [
+                                            "The name field is required."
+                                        ]
+                                    },
+                                    "data": null
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 404,
+                                    "success": false,
+                                    "message": "Author not found",
+                                    "errors": null,
+                                    "data": null
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Author API"
+                ],
+                "summary": "Author delete",
+                "description": "API for deleting Author",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Author ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success deleting data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "success": true,
+                                    "message": "Author deleted successfully",
+                                    "errors": null,
+                                    "data": null
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 404,
+                                    "success": false,
+                                    "message": "Author not found",
+                                    "errors": null,
+                                    "data": null
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/book": {
+            "get": {
+                "tags": [
+                    "Book API"
+                ],
+                "summary": "Book list",
+                "description": "API for getting Book list, can return with/out pagination, filter selected column, sort by column",
+                "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by book title or author name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order_by",
+                        "in": "query",
+                        "description": "Order by column",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Sort by asc/desc",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "is_paginate",
+                        "in": "query",
+                        "description": "Paginate the data",
+                        "schema": {
+                            "type": "string",
+                            "default": "true",
+                            "enum": [
+                                "true",
+                                "false"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Limit data per page",
+                        "schema": {
+                            "type": "string",
+                            "default": "15"
+                        }
+                    },
+                    {
+                        "name": "select_field",
+                        "in": "query",
+                        "description": "Selected column of the data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success getting data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "success": true,
+                                    "message": "Book retrieved successfully",
+                                    "errors": null,
+                                    "data": {
+                                        "current_page": 1,
+                                        "data": [
+                                            {
+                                                "id": 2,
+                                                "author_id": 2,
+                                                "name": "Takeshi Maekawa",
+                                                "title": "Kung Fu Boy",
+                                                "created_at": "2020-02-15 02:21:47",
+                                                "updated_at": "2020-02-15 02:21:47"
+                                            }
+                                        ],
+                                        "first_page_url": "http:\\/\\/127.0.0.1:8000\\/api\\/v1/book?page=1",
+                                        "from": 1,
+                                        "last_page": 3,
+                                        "last_page_url": "http:\\/\\/127.0.0.1:8000\\/api\\/v1/book?page=3",
+                                        "next_page_url": "http:\\/\\/127.0.0.1:8000\\/api\\/v1\\/book?page=2",
+                                        "path": "http:\\/\\/127.0.0.1:8000\\/api\\/v1\\/book",
+                                        "per_page": "1",
+                                        "prev_page_url": null,
+                                        "to": 1,
+                                        "total": 3
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Book API"
+                ],
+                "summary": "Book create",
+                "description": "API for creating Book",
+                "operationId": "store",
+                "requestBody": {
+                    "request": "Book",
+                    "description": "Book object that needs to be added to the body",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {},
+                            "example": {
+                                "author_id": 2,
+                                "title": "Kung Fu Boy"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success creating data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 201,
+                                    "success": true,
+                                    "message": "Book created successfully",
+                                    "errors": null,
+                                    "data": {
+                                        "author_id": 2,
+                                        "title": "Kung Fu Boy",
+                                        "updated_at": "2020-02-15 12:26:08",
+                                        "created_at": "2020-02-15 12:26:08",
+                                        "id": 4
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 400,
+                                    "success": false,
+                                    "message": "There's something wrong with your request",
+                                    "errors": {
+                                        "title": [
+                                            "The title field is required."
+                                        ]
+                                    },
+                                    "data": null
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/book/{id}": {
+            "get": {
+                "tags": [
+                    "Book API"
+                ],
+                "summary": "Book detail",
+                "description": "API for getting Book detail, filter selected column",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Book ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "select_field",
+                        "in": "query",
+                        "description": "Selected column of the data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success getting data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "success": true,
+                                    "message": "Book retrieved successfully",
+                                    "errors": null,
+                                    "data": {
+                                        "id": 1,
+                                        "author_id": 1,
+                                        "name": "Masashi Ueda",
+                                        "title": "Kariage Kun",
+                                        "created_at": "2020-02-11 22:23:10",
+                                        "updated_at": "2020-02-11 22:23:12"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 404,
+                                    "success": false,
+                                    "message": "Book not found",
+                                    "errors": null,
+                                    "data": null
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Book API"
+                ],
+                "summary": "Book update",
+                "description": "API for updating Book",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Book ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "request": "Book",
+                    "description": "Book object that needs to be added to the body",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {},
+                            "example": {
+                                "author_id": 1,
+                                "title": "Bakeru Kun"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success updating data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "success": true,
+                                    "message": "Book updated successfully",
+                                    "errors": null,
+                                    "data": {
+                                        "id": 1,
+                                        "title": "bhehehe",
+                                        "author_id": 1,
+                                        "created_at": "2020-02-11 22:23:10",
+                                        "updated_at": "2020-02-15 12:20:34",
+                                        "deleted_at": null
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 400,
+                                    "success": false,
+                                    "message": "There's something wrong with your request",
+                                    "errors": {
+                                        "title": [
+                                            "The title field is required."
+                                        ]
+                                    },
+                                    "data": null
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 404,
+                                    "success": false,
+                                    "message": "Book not found",
+                                    "errors": null,
+                                    "data": null
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Book API"
+                ],
+                "summary": "Book delete",
+                "description": "API for deleting Book",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Book ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success deleting data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 200,
+                                    "success": true,
+                                    "message": "Book deleted successfully",
+                                    "errors": null,
+                                    "data": null
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": 404,
+                                    "success": false,
+                                    "message": "Book not found",
+                                    "errors": null,
+                                    "data": null
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
