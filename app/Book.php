@@ -20,14 +20,20 @@ class Book extends Model
 
     public static function fields() {
         return [
-            'id',
+            'books.id',
+            'author_id',
+            'name',
         	'title',
-        	'created_at',
-        	'updated_at'
+        	'books.created_at',
+        	'books.updated_at'
         ];
     }
 
-    public function author() {
-        return $this->hasOne(Author::class, 'id', 'author_id');
+    public static function aliases() {
+        return array(
+            'id'         => 'books.id',
+            'created_at' => 'books.created_at',
+            'updated_at' => 'books.updated_at'
+        );
     }
 }

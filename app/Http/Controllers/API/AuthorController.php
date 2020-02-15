@@ -18,20 +18,22 @@ class AuthorController extends Controller
     {
         $search = $request->search;
         $orderBy = checkInArr($request->order_by, Author::fields()) ?: 'id';
-        $sort = $request->sort ?: 'desc';
+        $sort = checkInSort($request->sort);
         $isPaginate = $request->is_paginate;
         $perPage = $request->per_page;
-        $selectField = str_replace(' ', '', $request->select_field) ?: 'id,name,created_at,updated_at';
+        $selectField = str_replace(' ', '', $request->select_field) ?: toStrColumn(Author::fields());
         $fields = explode(',', $selectField);
-        $fields = checkArrInArr($fields, Author::fields());
+        $fields = checkArrInArr($fields, Author::fields(), null);
 
-        $query = Author::where('name', 'ilike', '%'.$search.'%')->orderBy($orderBy, $sort);
+        $query = Author::select($fields)
+            ->where('name', 'ilike', '%'.$search.'%')
+            ->orderBy($orderBy, $sort);
 
         if ($isPaginate == 'true')
         {
-            $data = $query->paginate($perPage, $fields);
+            $data = $query->paginate($perPage);
         } else {
-            $data = $query->limit($perPage)->get($fields);
+            $data = $query->limit($perPage)->get();
         }
         
         return $this->sendResponse(200, true, 'Author retrieved successfully', null, $data);
@@ -73,8 +75,9 @@ class AuthorController extends Controller
             return $this->sendResponse(404, false, 'Author not found', null, null);
         }
 
-        $selectField = str_replace(' ', '', $request->select_field) ?: 'id,name,created_at,updated_at';
+        $selectField = str_replace(' ', '', $request->select_field) ?: toStrColumn(Author::fields());
         $fields = explode(',', $selectField);
+        $fields = checkArrInArr($fields, Author::fields(), null);
 
         $data = Author::find($id, $fields);
 

@@ -18,11 +18,18 @@ class BookController extends Controller
     {
         $search = $request->search;
         $orderBy = checkInArr($request->order_by, Book::fields()) ?: 'id';
-        $sort = $request->sort ?: 'desc';
+        $sort = checkInSort($request->sort);
         $isPaginate = $request->is_paginate;
         $perPage = $request->per_page;
+        $selectField = str_replace(' ', '', $request->select_field) ?: toStrColumn(Book::fields());
+        $fields = explode(',', $selectField);
+        $fields = checkArrInArr($fields, Book::fields(), Book::aliases());
       
-        $query = Book::with('author')->where('title', 'ilike', '%'.$search.'%')->orderBy($orderBy, $sort);
+        $query = Book::select($fields)
+            ->join('authors', 'authors.id', '=', 'books.author_id')
+            ->where('title', 'ilike', '%'.$search.'%')
+            ->orWhere('name', 'ilike', '%'.$search.'%')
+            ->orderBy($orderBy, $sort);
 
         if ($isPaginate == 'true')
         {
@@ -64,14 +71,18 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         if (!is_numeric($id))
         {
             return $this->sendResponse(404, false, 'Book not found', null, null);
         }
 
-        $data = Book::with('author')->find($id);
+        $selectField = str_replace(' ', '', $request->select_field) ?: toStrColumn(Book::fields());
+        $fields = explode(',', $selectField);
+        $fields = checkArrInArr($fields, Book::fields(), Book::aliases());
+
+        $data = Book::join('authors', 'authors.id', '=', 'books.author_id')->find($id, $fields);
 
         if (is_null($data))
         {
