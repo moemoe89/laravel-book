@@ -20,3 +20,5 @@ const app = new Vue({
     router: router,
     render: h => h(App),
 });
+
+Vue.component('pagination', require('laravel-vue-pagination'));

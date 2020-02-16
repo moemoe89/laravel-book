@@ -28,7 +28,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="book in books" :key="book.id">
+            <tr v-for="book in books.data" :key="book.id">
                 <td>{{ book.id }}</td>
                 <td>{{ book.name }}</td>
                 <td>{{ book.title }}</td>
@@ -44,6 +44,7 @@
             </tr>
             </tbody>
         </table>
+        <pagination :data="books" @pagination-change-page="list"></pagination>
     </div>
 </template>
 
@@ -54,24 +55,30 @@
                 books: [],
                 search: (this.$route.query.search || ''),
                 currentSort: (this.$route.query.order_by || ''),
-                currentSortDir: (this.$route.query.sort || '')
+                currentSortDir: (this.$route.query.sort || ''),
+                isPaginate: (this.$route.query.is_paginate || 'true'),
+                page: (this.$route.query.page || '1')
             }
         },
         created() {
             this.list();
         },
         methods: {
-            list() {
+            list(page) {
+                this.page = page;
                 this.axios
                     .get(window.location.origin+'/api/v1/book', {
                       params: {
                         search: this.search,
                         order_by: this.currentSort,
                         sort: this.currentSortDir,
+                        is_paginate: this.isPaginate,
+                        page: this.page,
                       },
                     })
                     .then(response => {
                         this.books = response.data.data;
+                        this.$router.replace({ name: "book", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
                     });
             },
             deleteBook(id) {
@@ -87,7 +94,7 @@
             searchBook:function() {
                 this.list();
                 this.search = this.search;
-                this.$router.replace({ name: "book", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir} });
+                this.$router.replace({ name: "book", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
             },
             sort:function(s) {
                 //if s == current sort, reverse
@@ -96,7 +103,7 @@
                 }
                 this.currentSort = s;
                 this.list();
-                this.$router.replace({ name: "book", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir} });
+                this.$router.replace({ name: "book", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
             }
         },
         computed:{

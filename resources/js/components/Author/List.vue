@@ -27,7 +27,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="author in authors" :key="author.id">
+            <tr v-for="author in authors.data" :key="author.id">
                 <td>{{ author.id }}</td>
                 <td>{{ author.name }}</td>
                 <td>{{ author.created_at | localTime }}</td>
@@ -42,6 +42,7 @@
             </tr>
             </tbody>
         </table>
+        <pagination :data="authors" @pagination-change-page="list"></pagination>
     </div>
 </template>
 
@@ -52,24 +53,30 @@
                 authors: [],
                 search: (this.$route.query.search || ''),
                 currentSort: (this.$route.query.order_by || ''),
-                currentSortDir: (this.$route.query.sort || '')
+                currentSortDir: (this.$route.query.sort || ''),
+                isPaginate: (this.$route.query.is_paginate || 'true'),
+                page: (this.$route.query.page || '1')
             }
         },
         created() {
             this.list();
         },
         methods: {
-            list() {
+            list(page) {
+                this.page = page;
                 this.axios
                     .get(window.location.origin+'/api/v1/author', {
                       params: {
                         search: this.search,
                         order_by: this.currentSort,
                         sort: this.currentSortDir,
+                        is_paginate: this.isPaginate,
+                        page: this.page,
                       },
                     })
                     .then(response => {
                         this.authors = response.data.data;
+                        this.$router.replace({ name: "home", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
                     });
             },
             deleteAuthor(id) {
@@ -85,7 +92,7 @@
             searchAuthor:function() {
                 this.list();
                 this.search = this.search;
-                this.$router.replace({ name: "home", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir} });
+                this.$router.replace({ name: "home", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
             },
             sort:function(s) {
                 //if s == current sort, reverse
@@ -94,7 +101,7 @@
                 }
                 this.currentSort = s;
                 this.list();
-                this.$router.replace({ name: "home", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir} });
+                this.$router.replace({ name: "home", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
             }
         },
         computed:{
