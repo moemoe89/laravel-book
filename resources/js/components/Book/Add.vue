@@ -38,7 +38,6 @@
         },
         methods: {
             addBook() {
-
                 this.axios
                     .post(window.location.origin+'/api/v1/book', this.book)
                     .then(response => (

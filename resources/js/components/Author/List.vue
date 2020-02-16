@@ -11,6 +11,20 @@
                                 <input type="text" v-model="search" v-on:keyup.enter="searchAuthor" class="form-control" value="" placeholder="Search">
                             </div>
                         </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <download-csv
+                                        :data="authorsExport"
+                                        :name="dataFile"
+                                        :labels="labels"
+                                        :fields="fields"
+                                        v-on:export-finished="exported"
+                                >
+                                    <button class="button" ref="exportCSV" style="display: none"></button>
+                                </download-csv>
+                                <button class="btn btn-info" @click="bindExport">Export CSV</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -51,11 +65,18 @@
         data() {
             return {
                 authors: [],
+                authorsExport: [],
                 search: (this.$route.query.search || ''),
                 currentSort: (this.$route.query.order_by || ''),
                 currentSortDir: (this.$route.query.sort || ''),
                 isPaginate: (this.$route.query.is_paginate || 'true'),
-                page: (this.$route.query.page || '1')
+                page: (this.$route.query.page || '1'),
+                dataFile: 'author_export.csv',
+                labels: {
+                    name: 'Name'
+                },
+                fields : ['name'],
+                isExported: false
             }
         },
         created() {
@@ -102,9 +123,30 @@
                 this.currentSort = s;
                 this.list();
                 this.$router.replace({ name: "home", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
+            },
+            bindExport() {
+                this.axios
+                    .get(window.location.origin+'/api/v1/author', {
+                      params: {
+                        search: this.search,
+                        order_by: this.currentSort,
+                        sort: this.currentSortDir,
+                      },
+                    })
+                    .then(response => {
+                        this.authorsExport = response.data.data;
+                    })
+                    .finally(() => (this.$refs.exportCSV.click()));
+            },
+            exported(event) {
+                console.log(event);
+                this.isExported = true
+                setTimeout(() => {
+                    this.isExported = false
+                }, 3 * 1000)
             }
         },
-        computed:{
+        computed: {
             authors:function() {
                 return this.authors.sort((a,b) => {
                     let modifier = 1;

@@ -11,6 +11,20 @@
                                 <input type="text" v-model="search" v-on:keyup.enter="searchBook" class="form-control" value="" placeholder="Search">
                             </div>
                         </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <download-csv
+                                        :data="booksExport"
+                                        :name="dataFile"
+                                        :labels="labels"
+                                        :fields="fields"
+                                        v-on:export-finished="exported"
+                                >
+                                    <button class="button" ref="exportCSV" style="display: none"></button>
+                                </download-csv>
+                                <button class="btn btn-info" @click="bindExport">Export CSV</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,11 +67,19 @@
         data() {
             return {
                 books: [],
+                booksExport: [],
                 search: (this.$route.query.search || ''),
                 currentSort: (this.$route.query.order_by || ''),
                 currentSortDir: (this.$route.query.sort || ''),
                 isPaginate: (this.$route.query.is_paginate || 'true'),
-                page: (this.$route.query.page || '1')
+                page: (this.$route.query.page || '1'),
+                dataFile: 'book_export.csv',
+                labels: {
+                    name: 'Author',
+                    title: 'Title'
+                },
+                fields : ['name', 'title'],
+                isExported: false
             }
         },
         created() {
@@ -104,9 +126,30 @@
                 this.currentSort = s;
                 this.list();
                 this.$router.replace({ name: "book", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
+            },
+            bindExport() {
+                this.axios
+                    .get(window.location.origin+'/api/v1/book', {
+                      params: {
+                        search: this.search,
+                        order_by: this.currentSort,
+                        sort: this.currentSortDir,
+                      },
+                    })
+                    .then(response => {
+                        this.booksExport = response.data.data;
+                    })
+                    .finally(() => (this.$refs.exportCSV.click()));
+            },
+            exported(event) {
+                console.log(event);
+                this.isExported = true
+                setTimeout(() => {
+                    this.isExported = false
+                }, 3 * 1000)
             }
         },
-        computed:{
+        computed: {
             books:function() {
                 return this.books.sort((a,b) => {
                     let modifier = 1;

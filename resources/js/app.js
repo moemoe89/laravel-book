@@ -6,6 +6,7 @@ import VueRouter from 'vue-router';
 import VueAxios from 'vue-axios';
 import axios from 'axios';
 import {routes} from './routes';
+import JsonCSV from 'vue-json-csv';
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
@@ -22,3 +23,4 @@ const app = new Vue({
 });
 
 Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('downloadCsv', JsonCSV);

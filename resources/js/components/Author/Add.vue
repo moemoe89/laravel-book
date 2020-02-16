@@ -24,7 +24,6 @@
         },
         methods: {
             addAuthor() {
-
                 this.axios
                     .post(window.location.origin+'/api/v1/author', this.author)
                     .then(response => (
