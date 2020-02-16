@@ -1,7 +1,23 @@
 <template>
     <div>
         <h4 class="text-center">Book List</h4><br/>
-        <router-link to="/book/add" class="btn btn-success">Add Book</router-link>
+        <div class="card">
+            <div class="card-header"><router-link class="float-right btn btn-success btn-sm" to="/book/add"><i class="fa fa-fw fa-plus-circle"></i> Add Book</router-link></div>
+            <div class="card-body">
+                <div class="col-sm-12">
+                    <form method="get">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <input type="text" name="search" id="search" class="form-control" value="" placeholder="Search">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br />
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -42,7 +58,7 @@
         },
         created() {
             this.axios
-                .get(window.location.origin+'/api/v1/book')
+                .get(window.location.origin+'/api/v1/book?search='+(this.$route.query.search || ''))
                 .then(response => {
                     this.books = response.data.data;
                 });

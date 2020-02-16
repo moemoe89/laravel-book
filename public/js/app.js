@@ -2080,6 +2080,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2089,7 +2105,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.axios.get(window.location.origin + '/api/v1/author').then(function (response) {
+    this.axios.get(window.location.origin + '/api/v1/author?search=' + (this.$route.query.search || '')).then(function (response) {
       _this.authors = response.data.data;
     });
   },
@@ -2287,6 +2303,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2296,7 +2328,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.axios.get(window.location.origin + '/api/v1/book').then(function (response) {
+    this.axios.get(window.location.origin + '/api/v1/book?search=' + (this.$route.query.search || '')).then(function (response) {
       _this.books = response.data.data;
     });
   },
@@ -20166,75 +20198,117 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("h4", { staticClass: "text-center" }, [_vm._v("Author List")]),
-      _c("br"),
-      _vm._v(" "),
+  return _c("div", [
+    _c("h4", { staticClass: "text-center" }, [_vm._v("Author List")]),
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "card" }, [
       _c(
-        "router-link",
-        { staticClass: "btn btn-success", attrs: { to: "/author/add" } },
-        [_vm._v("Add Author")]
+        "div",
+        { staticClass: "card-header" },
+        [
+          _c(
+            "router-link",
+            {
+              staticClass: "float-right btn btn-success btn-sm",
+              attrs: { to: "/author/add" }
+            },
+            [
+              _c("i", { staticClass: "fa fa-fw fa-plus-circle" }),
+              _vm._v(" Add Author")
+            ]
+          )
+        ],
+        1
       ),
       _vm._v(" "),
-      _c("table", { staticClass: "table table-bordered" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.authors, function(author) {
-            return _c("tr", { key: author.id }, [
-              _c("td", [_vm._v(_vm._s(author.id))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(author.name))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(author.created_at))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(author.updated_at))]),
-              _vm._v(" "),
-              _c("td", [
-                _c(
-                  "div",
-                  { staticClass: "btn-group", attrs: { role: "group" } },
-                  [
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: {
-                          to: { name: "author_edit", params: { id: author.id } }
+      _vm._m(0)
+    ]),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("table", { staticClass: "table table-bordered" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.authors, function(author) {
+          return _c("tr", { key: author.id }, [
+            _c("td", [_vm._v(_vm._s(author.id))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(author.name))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(author.created_at))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(author.updated_at))]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "div",
+                { staticClass: "btn-group", attrs: { role: "group" } },
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: {
+                        to: { name: "author_edit", params: { id: author.id } }
+                      }
+                    },
+                    [_vm._v("Edit\n                    ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteAuthor(author.id)
                         }
-                      },
-                      [_vm._v("Edit\n                    ")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        on: {
-                          click: function($event) {
-                            return _vm.deleteAuthor(author.id)
-                          }
-                        }
-                      },
-                      [_vm._v("Delete")]
-                    )
-                  ],
-                  1
-                )
-              ])
+                      }
+                    },
+                    [_vm._v("Delete")]
+                  )
+                ],
+                1
+              )
             ])
-          }),
-          0
-        )
-      ])
-    ],
-    1
-  )
+          ])
+        }),
+        0
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c("form", { attrs: { method: "get" } }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-sm-2" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    name: "search",
+                    id: "search",
+                    value: "",
+                    placeholder: "Search"
+                  }
+                })
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -20521,77 +20595,119 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("h4", { staticClass: "text-center" }, [_vm._v("Book List")]),
-      _c("br"),
-      _vm._v(" "),
+  return _c("div", [
+    _c("h4", { staticClass: "text-center" }, [_vm._v("Book List")]),
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "card" }, [
       _c(
-        "router-link",
-        { staticClass: "btn btn-success", attrs: { to: "/book/add" } },
-        [_vm._v("Add Book")]
+        "div",
+        { staticClass: "card-header" },
+        [
+          _c(
+            "router-link",
+            {
+              staticClass: "float-right btn btn-success btn-sm",
+              attrs: { to: "/book/add" }
+            },
+            [
+              _c("i", { staticClass: "fa fa-fw fa-plus-circle" }),
+              _vm._v(" Add Book")
+            ]
+          )
+        ],
+        1
       ),
       _vm._v(" "),
-      _c("table", { staticClass: "table table-bordered" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.books, function(book) {
-            return _c("tr", { key: book.id }, [
-              _c("td", [_vm._v(_vm._s(book.id))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(book.name))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(book.title))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(book.created_at))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(book.updated_at))]),
-              _vm._v(" "),
-              _c("td", [
-                _c(
-                  "div",
-                  { staticClass: "btn-group", attrs: { role: "group" } },
-                  [
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: {
-                          to: { name: "book_edit", params: { id: book.id } }
+      _vm._m(0)
+    ]),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("table", { staticClass: "table table-bordered" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.books, function(book) {
+          return _c("tr", { key: book.id }, [
+            _c("td", [_vm._v(_vm._s(book.id))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(book.name))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(book.title))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(book.created_at))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(book.updated_at))]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "div",
+                { staticClass: "btn-group", attrs: { role: "group" } },
+                [
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: {
+                        to: { name: "book_edit", params: { id: book.id } }
+                      }
+                    },
+                    [_vm._v("Edit\n                    ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteBook(book.id)
                         }
-                      },
-                      [_vm._v("Edit\n                    ")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        on: {
-                          click: function($event) {
-                            return _vm.deleteBook(book.id)
-                          }
-                        }
-                      },
-                      [_vm._v("Delete")]
-                    )
-                  ],
-                  1
-                )
-              ])
+                      }
+                    },
+                    [_vm._v("Delete")]
+                  )
+                ],
+                1
+              )
             ])
-          }),
-          0
-        )
-      ])
-    ],
-    1
-  )
+          ])
+        }),
+        0
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "col-sm-12" }, [
+        _c("form", { attrs: { method: "get" } }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-sm-2" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    name: "search",
+                    id: "search",
+                    value: "",
+                    placeholder: "Search"
+                  }
+                })
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
