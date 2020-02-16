@@ -6,7 +6,10 @@
         <nav class="navbar navbar-expand-sm bg-light">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link to="/" class="nav-item nav-link">Home</router-link>
+              <router-link to="/" class="nav-item nav-link">Author</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/book" class="nav-item nav-link">Book</router-link>
             </li>
           </ul>
         </nav>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <h4 class="text-center">Author List</h4><br/>
-        <router-link to="/add" class="btn btn-success">Add Author</router-link>
+        <router-link to="/author/add" class="btn btn-success">Add Author</router-link>
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -20,7 +20,7 @@
                 <td>{{ author.updated_at }}</td>
                 <td>
                     <div class="btn-group" role="group">
-                        <router-link :to="{name: 'edit', params: { id: author.id }}" class="btn btn-primary">Edit
+                        <router-link :to="{name: 'author_edit', params: { id: author.id }}" class="btn btn-primary">Edit
                         </router-link>
                         <button class="btn btn-danger" @click="deleteAuthor(author.id)">Delete</button>
                     </div>
