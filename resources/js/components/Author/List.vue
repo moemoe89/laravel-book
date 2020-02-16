@@ -33,10 +33,10 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th @click="sort('id')">ID</th>
-                <th @click="sort('name')">Name</th>
-                <th @click="sort('created_at')">Created At</th>
-                <th @click="sort('updated_at')">Updated At</th>
+                <th @click="sort('id')">ID <i class="fa fa-sort" aria-hidden="true"></i></th>
+                <th @click="sort('name')">Name <i class="fa fa-sort" aria-hidden="true"></i></th>
+                <th @click="sort('created_at')">Created At <i class="fa fa-sort" aria-hidden="true"></i></th>
+                <th @click="sort('updated_at')">Updated At <i class="fa fa-sort" aria-hidden="true"></i></th>
                 <th>Actions</th>
             </tr>
             </thead>

@@ -56483,7 +56483,13 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("ID")]
+              [
+                _vm._v("ID "),
+                _c("i", {
+                  staticClass: "fa fa-sort",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
             ),
             _vm._v(" "),
             _c(
@@ -56495,7 +56501,13 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Name")]
+              [
+                _vm._v("Name "),
+                _c("i", {
+                  staticClass: "fa fa-sort",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
             ),
             _vm._v(" "),
             _c(
@@ -56507,7 +56519,13 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Created At")]
+              [
+                _vm._v("Created At "),
+                _c("i", {
+                  staticClass: "fa fa-sort",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
             ),
             _vm._v(" "),
             _c(
@@ -56519,7 +56537,13 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Updated At")]
+              [
+                _vm._v("Updated At "),
+                _c("i", {
+                  staticClass: "fa fa-sort",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
             ),
             _vm._v(" "),
             _c("th", [_vm._v("Actions")])
@@ -56982,7 +57006,13 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("ID")]
+              [
+                _vm._v("ID "),
+                _c("i", {
+                  staticClass: "fa fa-sort",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
             ),
             _vm._v(" "),
             _c(
@@ -56994,7 +57024,13 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Author")]
+              [
+                _vm._v("Author "),
+                _c("i", {
+                  staticClass: "fa fa-sort",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
             ),
             _vm._v(" "),
             _c(
@@ -57006,7 +57042,13 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Title")]
+              [
+                _vm._v("Title "),
+                _c("i", {
+                  staticClass: "fa fa-sort",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
             ),
             _vm._v(" "),
             _c(
@@ -57018,7 +57060,13 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Created At")]
+              [
+                _vm._v("Created At "),
+                _c("i", {
+                  staticClass: "fa fa-sort",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
             ),
             _vm._v(" "),
             _c(
@@ -57030,7 +57078,13 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Updated At")]
+              [
+                _vm._v("Updated At "),
+                _c("i", {
+                  staticClass: "fa fa-sort",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
             ),
             _vm._v(" "),
             _c("th", [_vm._v("Actions")])
