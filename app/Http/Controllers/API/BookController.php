@@ -79,7 +79,7 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $orderBy = checkInArr($request->order_by, Book::fields()) ?: 'id';
+        $orderBy = checkInArr($request->order_by, Book::fields()) ?: 'books.id';
         $sort = checkInSort($request->sort);
         $isPaginate = $request->is_paginate;
         $perPage = $request->per_page;

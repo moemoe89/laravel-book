@@ -18,11 +18,16 @@
                                         :name="dataFile"
                                         :labels="labels"
                                         :fields="fields"
-                                        v-on:export-finished="exported"
+                                        v-on:export-finished="exportCSV"
                                 >
                                     <button class="button" ref="exportCSV" style="display: none"></button>
                                 </download-csv>
-                                <button class="btn btn-info" @click="bindExport">Export CSV</button>
+                                <button class="btn btn-info" @click="bindExport('csv')">Export CSV</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <button class="btn btn-info" @click="bindExport('xml')">Export XML</button>
                             </div>
                         </div>
                     </div>
@@ -105,7 +110,7 @@
                     this.axios
                         .delete(window.location.origin+`/api/v1/author/${id}`)
                         .then(response => {
-                            let i = this.authors.data.map(item => item.id).indexOf(id); // find index of your object
+                            let i = this.authors.data.map(item => item.id).indexOf(id);
                             this.authors.data.splice(i, 1)
                         });
                 }
@@ -116,7 +121,6 @@
                 this.$router.replace({ name: "home", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
             },
             sort:function(s) {
-                //if s == current sort, reverse
                 if(s === this.currentSort) {
                     this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
                 }
@@ -124,10 +128,11 @@
                 this.list();
                 this.$router.replace({ name: "home", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
             },
-            bindExport() {
+            bindExport(type) {
                 this.axios
                     .get(window.location.origin+'/api/v1/author', {
                       params: {
+                        select_field: 'name',
                         search: this.search,
                         order_by: this.currentSort,
                         sort: this.currentSortDir,
@@ -136,14 +141,39 @@
                     .then(response => {
                         this.authorsExport = response.data.data;
                     })
-                    .finally(() => (this.$refs.exportCSV.click()));
+                    .finally(() => {
+                        if(type == 'csv') {
+                            this.$refs.exportCSV.click()
+                        } else if(type == 'xml') {
+                            this.exportXML()
+                        }
+                    });
             },
-            exported(event) {
-                console.log(event);
+            exportCSV(event) {
                 this.isExported = true
                 setTimeout(() => {
                     this.isExported = false
                 }, 3 * 1000)
+            },
+            exportXML() {
+                var jsonxml = require('jsontoxml');
+                var authorData = [];
+
+                var arrayLength = this.authorsExport.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    authorData.push({
+                        author:{
+                            name: this.authorsExport[i].name,
+                        }
+                    });
+                }
+
+                var xml = jsonxml({
+                    root: authorData,
+                })
+                 
+                var download = require('downloadjs');
+                download(xml, "author_export.xml", "application/xml");
             }
         },
         computed: {

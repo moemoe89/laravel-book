@@ -18,11 +18,34 @@
                                         :name="dataFile"
                                         :labels="labels"
                                         :fields="fields"
-                                        v-on:export-finished="exported"
+                                        v-on:export-finished="exportCSV"
                                 >
                                     <button class="button" ref="exportCSV" style="display: none"></button>
                                 </download-csv>
-                                <button class="btn btn-info" @click="bindExport">Export CSV</button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-info">Export CSV</button>
+                                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" @click="bindExport('title','csv')">Title</a>
+                                        <a class="dropdown-item" href="#" @click="bindExport('author_title','csv')">Author Title</a>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-info">Export XML</button>
+                                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" @click="bindExport('title','xml')">Title</a>
+                                        <a class="dropdown-item" href="#" @click="bindExport('author_title','xml')">Author Title</a>
+                                  </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -74,11 +97,8 @@
                 isPaginate: (this.$route.query.is_paginate || 'true'),
                 page: (this.$route.query.page || '1'),
                 dataFile: 'book_export.csv',
-                labels: {
-                    name: 'Author',
-                    title: 'Title'
-                },
-                fields : ['name', 'title'],
+                labels: {},
+                fields : [],
                 isExported: false
             }
         },
@@ -108,7 +128,7 @@
                     this.axios
                         .delete(window.location.origin+`/api/v1/book/${id}`)
                         .then(response => {
-                            let i = this.books.data.map(item => item.id).indexOf(id); // find index of your object
+                            let i = this.books.data.map(item => item.id).indexOf(id);
                             this.books.data.splice(i, 1)
                         });
                 }
@@ -119,7 +139,6 @@
                 this.$router.replace({ name: "book", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
             },
             sort:function(s) {
-                //if s == current sort, reverse
                 if(s === this.currentSort) {
                     this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
                 }
@@ -127,26 +146,68 @@
                 this.list();
                 this.$router.replace({ name: "book", query: {search: this.search, order_by: this.currentSort, sort: this.currentSortDir, page: this.page} });
             },
-            bindExport() {
+            bindExport(column, type) {
                 this.axios
                     .get(window.location.origin+'/api/v1/book', {
                       params: {
+                        select_field: 'name,title',
                         search: this.search,
                         order_by: this.currentSort,
                         sort: this.currentSortDir,
                       },
                     })
                     .then(response => {
+                        if(column == 'author_title') {
+                            this.labels = {
+                                name: 'Author',
+                                title: 'Title'
+                            };
+                            this.fields = ['name', 'title'];
+                        } else if(column == 'title') {
+                            this.labels = {
+                                title: 'Title'
+                            };
+                            this.fields = ['title'];
+                        }
                         this.booksExport = response.data.data;
                     })
-                    .finally(() => (this.$refs.exportCSV.click()));
+                    .finally(() => {
+                        if(type == 'csv') {
+                            this.$refs.exportCSV.click()
+                        } else if(type == 'xml') {
+                            this.exportXML(column)
+                        }
+                    });
             },
-            exported(event) {
-                console.log(event);
+            exportCSV(event) {
                 this.isExported = true
                 setTimeout(() => {
                     this.isExported = false
                 }, 3 * 1000)
+            },
+            exportXML(column) {
+                var jsonxml = require('jsontoxml');
+                var bookData = [];
+
+                var arrayLength = this.booksExport.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    var book = {
+                        title: this.booksExport[i].title
+                    }
+                    if(column == 'author_title') {
+                        book.name = this.booksExport[i].name;
+                    }
+                    bookData.push({
+                        book
+                    });
+                }
+
+                var xml = jsonxml({
+                    root: bookData,
+                })
+                 
+                var download = require('downloadjs');
+                download(xml, "author_export.xml", "application/xml");
             }
         },
         computed: {
