@@ -108,8 +108,8 @@
                     this.axios
                         .delete(window.location.origin+`/api/v1/book/${id}`)
                         .then(response => {
-                            let i = this.books.map(item => item.id).indexOf(id); // find index of your object
-                            this.books.splice(i, 1)
+                            let i = this.books.data.map(item => item.id).indexOf(id); // find index of your object
+                            this.books.data.splice(i, 1)
                         });
                 }
             },

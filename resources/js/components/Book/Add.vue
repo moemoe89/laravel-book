@@ -42,9 +42,10 @@
                     .post(window.location.origin+'/api/v1/book', this.book)
                     .then(response => (
                         this.$router.push({name: 'book'})
-                        // console.log(response.data)
                     ))
-                    .catch(error => console.log(error))
+                    .catch(error => {
+                        alert(error.response.data.message)
+                    })
                     .finally(() => this.loading = false)
             }
         }

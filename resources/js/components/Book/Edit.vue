@@ -33,15 +33,18 @@
             this.axios
                 .get(window.location.origin+'/api/v1/author?order_by=name&sort=asc&select_field=id,name')
                 .then((response) => {
-                    this.book = response.data.data;
-                    // console.log(response.data);
+                    this.authors = response.data.data;
                 });
 
             this.axios
-                .get(window.location.origin+'/api/v1/author')
-                .then(response => {
-                    this.authors = response.data.data;
-                });    
+                .get(window.location.origin+`/api/v1/book/${this.$route.params.id}`)
+                .then((response) => {
+                    this.book = response.data.data;
+                })
+                .catch(error => {
+                    alert(error.response.data.message);
+                    this.$router.push({name: 'book'});
+                });
         },
         methods: {
             updateBook() {
@@ -49,6 +52,9 @@
                     .put(window.location.origin+`/api/v1/book/${this.$route.params.id}`, this.book)
                     .then((response) => {
                         this.$router.push({name: 'book'});
+                    })
+                    .catch(error => {
+                        alert(error.response.data.message)
                     });
             }
         }

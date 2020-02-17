@@ -1971,10 +1971,9 @@ __webpack_require__.r(__webpack_exports__);
       this.axios.post(window.location.origin + '/api/v1/author', this.author).then(function (response) {
         return _this.$router.push({
           name: 'home'
-        }) // console.log(response.data)
-        ;
+        });
       })["catch"](function (error) {
-        return console.log(error);
+        alert(error.response.data.message);
       })["finally"](function () {
         return _this.loading = false;
       });
@@ -2020,7 +2019,13 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     this.axios.get(window.location.origin + "/api/v1/author/".concat(this.$route.params.id)).then(function (response) {
-      _this.author = response.data.data; // console.log(response.data);
+      _this.author = response.data.data;
+    })["catch"](function (error) {
+      alert(error.response.data.message);
+
+      _this.$router.push({
+        name: 'home'
+      });
     });
   },
   methods: {
@@ -2031,6 +2036,8 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$router.push({
           name: 'home'
         });
+      })["catch"](function (error) {
+        alert(error.response.data.message);
       });
     }
   }
@@ -2162,12 +2169,12 @@ __webpack_require__.r(__webpack_exports__);
 
       if (confirm("Do you really want to delete?")) {
         this.axios["delete"](window.location.origin + "/api/v1/author/".concat(id)).then(function (response) {
-          var i = _this2.authors.map(function (item) {
+          var i = _this2.authors.data.map(function (item) {
             return item.id;
           }).indexOf(id); // find index of your object
 
 
-          _this2.authors.splice(i, 1);
+          _this2.authors.data.splice(i, 1);
         });
       }
     },
@@ -2302,10 +2309,9 @@ __webpack_require__.r(__webpack_exports__);
       this.axios.post(window.location.origin + '/api/v1/book', this.book).then(function (response) {
         return _this2.$router.push({
           name: 'book'
-        }) // console.log(response.data)
-        ;
+        });
       })["catch"](function (error) {
-        return console.log(error);
+        alert(error.response.data.message);
       })["finally"](function () {
         return _this2.loading = false;
       });
@@ -2358,10 +2364,16 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     this.axios.get(window.location.origin + '/api/v1/author?order_by=name&sort=asc&select_field=id,name').then(function (response) {
-      _this.book = response.data.data; // console.log(response.data);
-    });
-    this.axios.get(window.location.origin + '/api/v1/author').then(function (response) {
       _this.authors = response.data.data;
+    });
+    this.axios.get(window.location.origin + "/api/v1/book/".concat(this.$route.params.id)).then(function (response) {
+      _this.book = response.data.data;
+    })["catch"](function (error) {
+      alert(error.response.data.message);
+
+      _this.$router.push({
+        name: 'book'
+      });
     });
   },
   methods: {
@@ -2372,6 +2384,8 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$router.push({
           name: 'book'
         });
+      })["catch"](function (error) {
+        alert(error.response.data.message);
       });
     }
   }
@@ -2506,12 +2520,12 @@ __webpack_require__.r(__webpack_exports__);
 
       if (confirm("Do you really want to delete?")) {
         this.axios["delete"](window.location.origin + "/api/v1/book/".concat(id)).then(function (response) {
-          var i = _this2.books.map(function (item) {
+          var i = _this2.books.data.map(function (item) {
             return item.id;
           }).indexOf(id); // find index of your object
 
 
-          _this2.books.splice(i, 1);
+          _this2.books.data.splice(i, 1);
         });
       }
     },
@@ -57241,7 +57255,7 @@ function normalizeComponent (
       // for template-only hot-reload because in that case the render fn doesn't
       // go through the normalizer
       options._injectStyles = hook
-      // register for functional component in vue file
+      // register for functioal component in vue file
       var originalRender = options.render
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -72327,8 +72341,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
-/* harmony import */ var vue_json_csv__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-json-csv */ "./node_modules/vue-json-csv/dist/vue-json-csv.common.js");
-/* harmony import */ var vue_json_csv__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_json_csv__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vue_json_csv__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-json-csv */ "./node_modules/vue-json-csv/dist/vue-json-csv.common.js");
+/* harmony import */ var vue_json_csv__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vue_json_csv__WEBPACK_IMPORTED_MODULE_6__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
@@ -72352,7 +72366,7 @@ var app = new Vue({
   }
 });
 Vue.component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
-Vue.component('downloadCsv', vue_json_csv__WEBPACK_IMPORTED_MODULE_5___default.a);
+Vue.component('downloadCsv', vue_json_csv__WEBPACK_IMPORTED_MODULE_6___default.a);
 
 /***/ }),
 

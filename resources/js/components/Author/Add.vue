@@ -28,9 +28,10 @@
                     .post(window.location.origin+'/api/v1/author', this.author)
                     .then(response => (
                         this.$router.push({name: 'home'})
-                        // console.log(response.data)
                     ))
-                    .catch(error => console.log(error))
+                    .catch(error => {
+                        alert(error.response.data.message)
+                    })
                     .finally(() => this.loading = false)
             }
         }

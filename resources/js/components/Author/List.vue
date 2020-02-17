@@ -105,8 +105,8 @@
                     this.axios
                         .delete(window.location.origin+`/api/v1/author/${id}`)
                         .then(response => {
-                            let i = this.authors.map(item => item.id).indexOf(id); // find index of your object
-                            this.authors.splice(i, 1)
+                            let i = this.authors.data.map(item => item.id).indexOf(id); // find index of your object
+                            this.authors.data.splice(i, 1)
                         });
                 }
             },

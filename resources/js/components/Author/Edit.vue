@@ -27,7 +27,10 @@
                 .get(window.location.origin+`/api/v1/author/${this.$route.params.id}`)
                 .then((response) => {
                     this.author = response.data.data;
-                    // console.log(response.data);
+                })
+                .catch(error => {
+                    alert(error.response.data.message);
+                    this.$router.push({name: 'home'});
                 });
         },
         methods: {
@@ -36,6 +39,9 @@
                     .put(window.location.origin+`/api/v1/author/${this.$route.params.id}`, this.author)
                     .then((response) => {
                         this.$router.push({name: 'home'});
+                    })
+                    .catch(error => {
+                        alert(error.response.data.message)
                     });
             }
         }
