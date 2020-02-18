@@ -2674,7 +2674,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var download = __webpack_require__(/*! downloadjs */ "./node_modules/downloadjs/download.js");
 
-      download(xml, "author_export.xml", "application/xml");
+      download(xml, "book_export.xml", "application/xml");
     }
   },
   computed: {
@@ -59020,7 +59020,7 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-info",
+                        staticClass: "btn btn-info export-csv",
                         on: {
                           click: function($event) {
                             return _vm.bindExport("csv")
@@ -59039,7 +59039,7 @@ var render = function() {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-info",
+                      staticClass: "btn btn-info export-xml",
                       on: {
                         click: function($event) {
                           return _vm.bindExport("xml")
@@ -59582,7 +59582,7 @@ var render = function() {
                         _c(
                           "a",
                           {
-                            staticClass: "dropdown-item",
+                            staticClass: "dropdown-item export-csv-title",
                             attrs: { href: "#" },
                             on: {
                               click: function($event) {
@@ -59596,7 +59596,8 @@ var render = function() {
                         _c(
                           "a",
                           {
-                            staticClass: "dropdown-item",
+                            staticClass:
+                              "dropdown-item export-csv-title-author",
                             attrs: { href: "#" },
                             on: {
                               click: function($event) {
@@ -59631,7 +59632,7 @@ var render = function() {
                       _c(
                         "a",
                         {
-                          staticClass: "dropdown-item",
+                          staticClass: "dropdown-item export-xml-title",
                           attrs: { href: "#" },
                           on: {
                             click: function($event) {
@@ -59645,7 +59646,7 @@ var render = function() {
                       _c(
                         "a",
                         {
-                          staticClass: "dropdown-item",
+                          staticClass: "dropdown-item export-xml-title-author",
                           attrs: { href: "#" },
                           on: {
                             click: function($event) {
@@ -59831,7 +59832,8 @@ var staticRenderFns = [
     return _c(
       "button",
       {
-        staticClass: "btn btn-info dropdown-toggle dropdown-toggle-split",
+        staticClass:
+          "btn btn-info dropdown-toggle dropdown-toggle-split export-csv",
         attrs: { type: "button", "data-toggle": "dropdown" }
       },
       [_c("span", { staticClass: "caret" })]
@@ -59844,7 +59846,8 @@ var staticRenderFns = [
     return _c(
       "button",
       {
-        staticClass: "btn btn-info dropdown-toggle dropdown-toggle-split",
+        staticClass:
+          "btn btn-info dropdown-toggle dropdown-toggle-split export-xml",
         attrs: { type: "button", "data-toggle": "dropdown" }
       },
       [_c("span", { staticClass: "caret" })]

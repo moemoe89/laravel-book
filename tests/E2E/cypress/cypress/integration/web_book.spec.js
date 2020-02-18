@@ -1,6 +1,8 @@
 import Constants from '../support/constant'
 
 describe('Book Web Test', function() {
+  let authorName
+
   it('list', function() {
     const baseURL = Constants.URL
 
@@ -10,7 +12,8 @@ describe('Book Web Test', function() {
 
   it('create-author', function() {
     const baseURL = Constants.URL
-    const name = 'TestAuthor'
+    const rand = new Date().getTime()
+    const name = `Test Author ${rand}`
 
     cy.visit(baseURL+'/')
     cy.wait(1000)
@@ -20,6 +23,7 @@ describe('Book Web Test', function() {
     cy.get('input[name=name]').type(`${name}{enter}`)
     cy.url().should('include', baseURL+'/')
     cy.get('td').should('contain', name)
+    authorName = name
   })
 
   it('create', function() {
@@ -32,7 +36,7 @@ describe('Book Web Test', function() {
     cy.get('.add-book').click()
     cy.wait(1000)
   
-    cy.get('select').select('TestAuthor')
+    cy.get('select').select(authorName)
     cy.get('input[name=title]').type(`${title}{enter}`)
     cy.url().should('include', baseURL+'/book')
     cy.get('td').should('contain', title)
@@ -52,6 +56,32 @@ describe('Book Web Test', function() {
 
     cy.get('td').should('contain', title)
   })
+
+  it('export-csv', function() {
+    const baseURL = Constants.URL
+
+    cy.visit(baseURL+'/book')
+    cy.wait(1000)
+    cy.get('.export-csv').click()
+    cy.get('.export-csv-title').click()
+    cy.wait(5000)
+    cy.get('.export-csv').click()
+    cy.get('.export-csv-title-author').click()
+    cy.wait(1000)
+  })
+
+  it('export-xml', function() {
+    const baseURL = Constants.URL
+
+    cy.visit(baseURL+'/book')
+    cy.wait(1000)
+    cy.get('.export-xml').click()
+    cy.get('.export-xml-title').click()
+    cy.wait(5000)
+    cy.get('.export-xml').click()
+    cy.get('.export-xml-title-author').click()
+    cy.wait(1000)
+  })
   
   it('update', function() {
   	const baseURL = Constants.URL
@@ -68,7 +98,7 @@ describe('Book Web Test', function() {
 	  cy.get('@editBtn').click()
     cy.wait(1000)
 
-    cy.get('select').select('TestAuthor')
+    cy.get('select').select(authorName)
     cy.get('input[name=title]').clear()
     cy.get('input[name=title]').type(`${title}{enter}`)
     cy.url().should('include', baseURL+'/book')

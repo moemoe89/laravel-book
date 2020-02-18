@@ -37,6 +37,24 @@ describe('Author Web Test', function() {
 
     cy.get('td').should('contain', name)
   })
+
+  it('export-csv', function() {
+    const baseURL = Constants.URL
+
+    cy.visit(baseURL+'/')
+    cy.wait(1000)
+    cy.get('.export-csv').click()
+    cy.wait(1000)
+  })
+
+  it('export-xml', function() {
+    const baseURL = Constants.URL
+
+    cy.visit(baseURL+'/')
+    cy.wait(1000)
+    cy.get('.export-xml').click()
+    cy.wait(1000)
+  })
   
   it('update', function() {
   	const baseURL = Constants.URL
@@ -62,7 +80,7 @@ describe('Author Web Test', function() {
   it('delete', function() {
   	const baseURL = Constants.URL
     const stub = cy.stub()
-    
+
     cy.visit(baseURL+'/')
     cy.wait(1000)
     cy.get('table')

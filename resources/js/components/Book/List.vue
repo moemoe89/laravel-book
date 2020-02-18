@@ -24,12 +24,12 @@
                                 </download-csv>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info">Export CSV</button>
-                                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split export-csv" data-toggle="dropdown">
                                         <span class="caret"></span>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#" @click="bindExport('title','csv')">Title</a>
-                                        <a class="dropdown-item" href="#" @click="bindExport('author_title','csv')">Author Title</a>
+                                        <a class="dropdown-item export-csv-title" href="#" @click="bindExport('title','csv')">Title</a>
+                                        <a class="dropdown-item export-csv-title-author" href="#" @click="bindExport('author_title','csv')">Author Title</a>
                                   </div>
                                 </div>
                             </div>
@@ -38,12 +38,12 @@
                             <div class="form-group">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info">Export XML</button>
-                                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                                    <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split export-xml" data-toggle="dropdown">
                                         <span class="caret"></span>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#" @click="bindExport('title','xml')">Title</a>
-                                        <a class="dropdown-item" href="#" @click="bindExport('author_title','xml')">Author Title</a>
+                                        <a class="dropdown-item export-xml-title" href="#" @click="bindExport('title','xml')">Title</a>
+                                        <a class="dropdown-item export-xml-title-author" href="#" @click="bindExport('author_title','xml')">Author Title</a>
                                   </div>
                                 </div>
                             </div>
@@ -207,7 +207,7 @@
                 })
                  
                 var download = require('downloadjs');
-                download(xml, "author_export.xml", "application/xml");
+                download(xml, "book_export.xml", "application/xml");
             }
         },
         computed: {

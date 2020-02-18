@@ -22,12 +22,12 @@
                                 >
                                     <button class="button" ref="exportCSV" style="display: none"></button>
                                 </download-csv>
-                                <button class="btn btn-info" @click="bindExport('csv')">Export CSV</button>
+                                <button class="btn btn-info export-csv" @click="bindExport('csv')">Export CSV</button>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <button class="btn btn-info" @click="bindExport('xml')">Export XML</button>
+                                <button class="btn btn-info export-xml" @click="bindExport('xml')">Export XML</button>
                             </div>
                         </div>
                     </div>
