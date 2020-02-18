@@ -6,7 +6,7 @@
                 <form @submit.prevent="addAuthor">
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control" v-model="author.name" id="name">
+                        <input type="text" class="form-control" v-model="author.name" name="name">
                     </div>
                     <button type="submit" class="btn btn-primary">Add Author</button>
                 </form>

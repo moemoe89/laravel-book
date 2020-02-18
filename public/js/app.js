@@ -58795,7 +58795,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text", id: "name" },
+                attrs: { type: "text", name: "name" },
                 domProps: { value: _vm.author.name },
                 on: {
                   input: function($event) {
@@ -58871,7 +58871,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text", id: "name" },
+                attrs: { type: "text", name: "name" },
                 domProps: { value: _vm.author.name },
                 on: {
                   input: function($event) {
@@ -59247,7 +59247,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { name: "author_id", id: "author_id" },
+                  attrs: { name: "author_id" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -59292,7 +59292,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text", id: "title" },
+                attrs: { type: "text", name: "title" },
                 domProps: { value: _vm.book.title },
                 on: {
                   input: function($event) {
@@ -59370,7 +59370,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { name: "author_id", id: "author_id" },
+                  attrs: { name: "author_id" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -59415,7 +59415,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text", id: "title" },
+                attrs: { type: "text", name: "title" },
                 domProps: { value: _vm.book.title },
                 on: {
                   input: function($event) {

@@ -6,13 +6,13 @@
                 <form @submit.prevent="updateBook">
                     <div class="form-group">
                         <label>Author ID</label>
-                        <select v-model="book.author_id" name="author_id" id="author_id" class="form-control">
+                        <select v-model="book.author_id" name="author_id" class="form-control">
                             <option v-for="author in authors" :key="author.id" :value="author.id">{{ author.name }}</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Title</label>
-                        <input type="text" class="form-control" v-model="book.title" id="title">
+                        <input type="text" class="form-control" v-model="book.title" name="title">
                     </div>
                     <button type="submit" class="btn btn-primary">Update Book</button>
                 </form>
