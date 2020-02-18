@@ -5,4 +5,4 @@ pipelines:
      - step:
         script:
           - apt-get update && apt-get install -y unzip git
-          - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:master
+          - git push -f https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:master
