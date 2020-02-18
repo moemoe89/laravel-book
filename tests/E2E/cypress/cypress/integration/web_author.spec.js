@@ -8,6 +8,32 @@ describe('Author Web Test', function() {
     cy.get('h4').should('contain', 'Author List')
   })
 
+  it('create-name-over-255', function() {
+    const baseURL = Constants.URL
+    const name = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+
+    cy.visit(baseURL+'/')
+    cy.wait(1000)
+    cy.get('.add-author').click()
+    cy.wait(1000)
+
+    cy.get('input[name=name]').type(`${name}{enter}`)
+    cy.get('form').should('contain', 'The name may not be greater than 255 characters.')
+  })
+
+  it('create-name-empty', function() {
+    const baseURL = Constants.URL
+    const name = ''
+
+    cy.visit(baseURL+'/')
+    cy.wait(1000)
+    cy.get('.add-author').click()
+    cy.wait(1000)
+
+    cy.get('input[name=name]').type(`${name}{enter}`)
+    cy.get('form').should('contain', 'The name field is required.')
+  })
+
   it('create', function() {
   	const baseURL = Constants.URL
     const rand = new Date().getTime()
