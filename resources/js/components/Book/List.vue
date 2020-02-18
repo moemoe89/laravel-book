@@ -2,7 +2,7 @@
     <div>
         <h4 class="text-center">Book List</h4><br/>
         <div class="card">
-            <div class="card-header"><router-link class="float-right btn btn-success btn-sm" to="/book/add"><i class="fa fa-fw fa-plus-circle"></i> Add Book</router-link></div>
+            <div class="card-header"><router-link class="float-right btn btn-success btn-sm add-book" to="/book/add"><i class="fa fa-fw fa-plus-circle"></i> Add Book</router-link></div>
             <div class="card-body">
                 <div class="col-sm-12">
                     <div class="row">

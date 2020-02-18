@@ -2,7 +2,7 @@
     <div>
         <h4 class="text-center">Author List</h4><br/>
         <div class="card">
-            <div class="card-header"><router-link class="float-right btn btn-success btn-sm" to="/author/add"><i class="fa fa-fw fa-plus-circle"></i> Add Author</router-link></div>
+            <div class="card-header"><router-link class="float-right btn btn-success btn-sm add-author" to="/author/add"><i class="fa fa-fw fa-plus-circle"></i> Add Author</router-link></div>
             <div class="card-body">
                 <div class="col-sm-12">
                     <div class="row">

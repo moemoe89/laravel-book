@@ -58795,7 +58795,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text" },
+                attrs: { type: "text", id: "name" },
                 domProps: { value: _vm.author.name },
                 on: {
                   input: function($event) {
@@ -58871,7 +58871,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text" },
+                attrs: { type: "text", id: "name" },
                 domProps: { value: _vm.author.name },
                 on: {
                   input: function($event) {
@@ -58931,7 +58931,7 @@ var render = function() {
             _c(
               "router-link",
               {
-                staticClass: "float-right btn btn-success btn-sm",
+                staticClass: "float-right btn btn-success btn-sm add-author",
                 attrs: { to: "/author/add" }
               },
               [
@@ -59247,7 +59247,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { name: "city", id: "city" },
+                  attrs: { name: "author_id", id: "author_id" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -59292,7 +59292,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text" },
+                attrs: { type: "text", id: "title" },
                 domProps: { value: _vm.book.title },
                 on: {
                   input: function($event) {
@@ -59370,7 +59370,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { name: "city", id: "city" },
+                  attrs: { name: "author_id", id: "author_id" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -59415,7 +59415,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text" },
+                attrs: { type: "text", id: "title" },
                 domProps: { value: _vm.book.title },
                 on: {
                   input: function($event) {
@@ -59475,7 +59475,7 @@ var render = function() {
             _c(
               "router-link",
               {
-                staticClass: "float-right btn btn-success btn-sm",
+                staticClass: "float-right btn btn-success btn-sm add-book",
                 attrs: { to: "/book/add" }
               },
               [
