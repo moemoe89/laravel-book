@@ -3,18 +3,19 @@ import Constants from '../support/constant'
 describe('Book Web Test', function() {
   it('list', function() {
     const baseURL = Constants.URL
+
     cy.visit(baseURL+'/book')
     cy.get('h4').should('contain', 'Book List')
   })
 
   it('create-author', function() {
     const baseURL = Constants.URL
+    const name = 'TestAuthor'
+
     cy.visit(baseURL+'/')
     cy.wait(1000)
     cy.get('.add-author').click()
     cy.wait(1000)
-
-    const name = 'TestAuthor'
 
     cy.get('input[name=name]').type(`${name}{enter}`)
     cy.url().should('include', baseURL+'/')
@@ -23,23 +24,40 @@ describe('Book Web Test', function() {
 
   it('create', function() {
   	const baseURL = Constants.URL
+    const rand = new Date().getTime()
+    const title = `Test Title ${rand}`
 
     cy.visit(baseURL+'/book')
     cy.wait(1000)
     cy.get('.add-book').click()
     cy.wait(1000)
-
-    const rand = new Date().getTime()
-    const title = `Test Title ${rand}`
-
+  
     cy.get('select').select('TestAuthor')
     cy.get('input[name=title]').type(`${title}{enter}`)
     cy.url().should('include', baseURL+'/book')
-    cy.get('td').should('contain', name)
+    cy.get('td').should('contain', title)
+  })
+
+  it('search', function() {
+    const baseURL = Constants.URL
+    const title = 'Test'
+
+    cy.visit(baseURL+'/')
+
+    cy.get('input[name=search]').clear()
+    cy.get('input[name=search]').type('xxxx')
+
+    cy.get('input[name=search]').clear()
+    cy.get('input[name=search]').type(title)
+
+    cy.get('td').should('contain', title)
   })
   
   it('update', function() {
   	const baseURL = Constants.URL
+    const rand = new Date().getTime()
+    const title = `Test Update Title ${rand}`
+
     cy.visit(baseURL+'/book')
     cy.wait(1000)
     cy.get('table')
@@ -49,9 +67,6 @@ describe('Book Web Test', function() {
 
 	  cy.get('@editBtn').click()
     cy.wait(1000)
-
-    const rand = new Date().getTime()
-    const title = `Test Update Title ${rand}`
 
     cy.get('select').select('TestAuthor')
     cy.get('input[name=title]').clear()
@@ -63,6 +78,7 @@ describe('Book Web Test', function() {
   it('delete', function() {
   	const baseURL = Constants.URL
     const stub = cy.stub()
+
     cy.visit(baseURL+'/book')
     cy.wait(1000)
     cy.get('table')
@@ -77,6 +93,7 @@ describe('Book Web Test', function() {
 
   it('delete-author', function() {
     const baseURL = Constants.URL
+
     cy.visit(baseURL+'/')
     cy.wait(1000)
     cy.get('table')

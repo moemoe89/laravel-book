@@ -155,7 +155,15 @@ const Constants = {
 export default Constants
 ```
 
-### Demo
+### Heroku
+
+Book management supported for Heroku deployment using Bitbucket pipelines.
+Changes the `HEROKU_API_KEY` & `HEROKU_APP_NAME` on your Bitbucket repository variables for auto deployment to your Heroku App.
+
+Setup the DB migration by using heroku command.
+```sh
+$  heroku run php artisan migrate --app {{heroku-app-name}}
+```
 
 Available demo can find on this Heroku App
 

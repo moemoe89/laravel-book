@@ -58958,7 +58958,12 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", value: "", placeholder: "Search" },
+                    attrs: {
+                      type: "text",
+                      value: "",
+                      placeholder: "Search",
+                      name: "search"
+                    },
                     domProps: { value: _vm.search },
                     on: {
                       keyup: function($event) {
@@ -59502,7 +59507,12 @@ var render = function() {
                       }
                     ],
                     staticClass: "form-control",
-                    attrs: { type: "text", value: "", placeholder: "Search" },
+                    attrs: {
+                      type: "text",
+                      value: "",
+                      placeholder: "Search",
+                      name: "search"
+                    },
                     domProps: { value: _vm.search },
                     on: {
                       keyup: function($event) {
