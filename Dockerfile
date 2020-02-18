@@ -1,6 +1,6 @@
 FROM php:7.3.6-fpm
 
-ENV TZ Asia/Tokyo
+ENV TZ Asia/Jakarta
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 # install Lib for composer

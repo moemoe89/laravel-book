@@ -45,6 +45,7 @@ describe('Author Web Test', function() {
   
   it('delete', function() {
   	const baseURL = Constants.URL
+    const stub = cy.stub()
     cy.visit(baseURL+'/')
     cy.wait(1000)
     cy.get('table')
@@ -53,6 +54,7 @@ describe('Author Web Test', function() {
 	  .find('.btn-danger').as('deleteBtn')
 
 	  cy.get('@deleteBtn').click()
+    cy.on('window:confirm', stub)
     cy.url().should('include', baseURL+'/')
   })
 })

@@ -20,7 +20,7 @@ services:
       DB_CONNECTION: 'pgsql'
       DB_HOST: 'db'
       DB_PORT: '5432'
-      DB_DATABASE: 'laravel_development'
+      DB_DATABASE: 'book'
       DB_USERNAME: 'docker'
       DB_PASSWORD: 'docker'
     volumes:
@@ -34,10 +34,10 @@ services:
     image: postgres:12.1
     container_name: db
     environment:
-      TZ: 'Asia/Tokyo'
+      TZ: 'Asia/Jakarta'
       POSTGRES_USER: 'docker'
       POSTGRES_PASSWORD: 'docker'
-      POSTGRES_DB: 'laravel_development'
+      POSTGRES_DB: 'book'
     volumes:
       - ./docker/db/data:/var/lib/postgresql/data
       - ./docker/db/sql:/docker-entrypoint-initdb.d

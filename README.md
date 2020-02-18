@@ -1,78 +1,169 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Book Management
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Book Management is a simple web application for manage book with the author.
 
-## About Laravel
+  - Managing Author data
+  - Managing Book data
+  - Export Data to CSV & XML
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Tech Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Book management uses a number of open source projects to work properly:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* [Laravel](https://laravel.com) - Backend Rest API
+* [Composer](https://getcomposer.org/) - Tool dependency management in PHP
+* [PostgreSQL](https://www.postgresql.org) - Database
+* [Node.js](https://nodejs.org/en) - JavaScript runtime environment
+* [NPM](https://www.npmjs.com/) - Package manager for the JavaScript
+* [VueJS](https://vuejs.org) - Frontend Web
+* [Cypress](https://www.cypress.io) - E2E Testing API & Web
+* [Docker](https://www.docker.com) - App Container
+* [Bitbucket Pipelines](https://bitbucket.org/product/features/pipelines) - Pipeline Deployment
+* [Heroku](https://heroku.com) - Cloud Application Platform
 
-## Learning Laravel
+### Requirements
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Book management is currently extended with the following requirements. Instructions on how to use them in your own application are linked below.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Requirement | Version |
+| ------ | ------ |
+| PHP | >= 7.2.0 |
+| PosgtreSQL | >= 12.0 |
+| NodeJS | >= 12.9.0 |
+| NPM | >= 6.13.0 |
+| Docker | >= 19.03.0 |
 
-## Laravel Sponsors
+### Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Make sure you the requirements above already install on your system. Or you could easily run with Docker to make your environment clean.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
+Clone the project to your directory and install the dependencies.
 
-## Contributing
+```sh
+$ git clone git@bitbucket.org:momo89/book.git
+$ cd book
+$ composer install
+$ npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Setup your environments.
 
-## Code of Conduct
+```sh
+$ cp .env.example .env
+$ php artisan key:generate
+```
+Change your PostgreSQL credentials depends on your PostgreSQL installed config.
+```sh
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=book
+DB_USERNAME=postgres
+DB_PASSWORD=
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Migrate
 
-## Security Vulnerabilities
+Setup your migration following by this command.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```sh
+$ php artisan migrate
+```
 
-## License
+#### Run Application
+For run application:
+```sh
+$ npm run dev
+$ php artisan serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Easily command with make:
+```sh
+$ make run
+```
+
+Verify the apllication by navigating to your server address in your preferred browser.
+
+```sh
+127.0.0.1:8000
+```
+
+### Docker
+Book management is very easy to install and deploy in a Docker container. Simply use the docker-compose build to build the image.
+
+```sh
+$ docker-compose build
+```
+Once done, run the Docker image by using docker-compose up command.
+
+```sh
+$ docker-compose up -d
+```
+
+Setup the DB migration by using docker-compose exec command.
+```sh
+$ docker-compose exec app php artisan migrate
+```
+
+Verify the application by navigating to your server address in your preferred browser.
+
+```sh
+127.0.0.1:8000
+```
+
+Stop application could be done with docker-compose stop command.
+```sh
+$ docker-compose stop
+```
+
+### Swagger
+
+Book management has Rest API Documentation generated by Swagger for understanding how's API work and/or want to extend to another platform.
+
+See the documentation by navigating to your server address in your preferred browser.
+
+```sh
+127.0.0.1:8000/api/documentation
+```
+
+Generating the documentation if there's any changes on Swagger Annotation.
+```sh
+$ php artisan l5-swagger:generate
+```
+### E2E Testing
+
+Book management has E2E Testing using Cypress for testing both the API & Web.
+
+```sh
+$ cd tests/E2E/cypress
+$ npm install
+$ ./node_modules/.bin/cypress open
+```
+
+Easily command with make:
+```sh
+$ make e2e
+```
+
+By default Cypress will be opened the GUI for run the test cases.
+The URL for Cypress do E2E testing configured on `tests/E2E/cypress/cypress/support/constant.js`.
+For changing the URL, easily to change the value from URL Constants.
+```sh
+const Constants = {
+  URL: 'http://127.0.0.1:8000'
+}
+export default Constants
+```
+
+### Demo
+
+Available demo can find on this Heroku App
+
+```sh
+https://yaraku-book.herokuapp.com
+```
+
+License
+----
+
+MIT
