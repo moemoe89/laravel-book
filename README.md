@@ -17,6 +17,7 @@ Book management uses a number of open source projects to work properly:
 * [NPM](https://www.npmjs.com/) - Package manager for the JavaScript
 * [VueJS](https://vuejs.org) - Frontend Web
 * [Cypress](https://www.cypress.io) - E2E Testing API & Web
+* [Swagger](https://swagger.io) - API Documentation
 * [Docker](https://www.docker.com) - App Container
 * [Bitbucket Pipelines](https://bitbucket.org/product/features/pipelines) - Pipeline Deployment
 * [Heroku](https://heroku.com) - Cloud Application Platform
@@ -159,6 +160,17 @@ export default Constants
 
 Book management supported for Heroku deployment using Bitbucket pipelines.
 Changes the `HEROKU_API_KEY` & `HEROKU_APP_NAME` on your Bitbucket repository variables for auto deployment to your Heroku App.
+
+Setup the environment variables on Heroku setting page.
+```sh
+APP_KEY
+DB_CONNECTION
+DB_HOST
+DB_PORT
+DB_DATABASE
+DB_USERNAME
+DB_PASSWORD
+```
 
 Setup the DB migration by using heroku command.
 ```sh

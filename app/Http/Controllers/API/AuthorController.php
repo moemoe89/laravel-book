@@ -4,11 +4,18 @@ namespace App\Http\Controllers\API;
 
 use App\Author;
 use App\Http\Controllers\Controller;
+use App\Repositories\AuthorRepository;
 use Illuminate\Http\Request;
 use Validator;
 
 class AuthorController extends Controller
 {
+    protected $author;
+
+    public function __construct(AuthorRepository $author)
+    {
+        $this->author = $author;
+    }
     /**
      * @OA\GET(
      *     path="/api/v1/author",
@@ -87,15 +94,11 @@ class AuthorController extends Controller
         $fields = explode(',', $selectField);
         $fields = checkArrInArr($fields, Author::fields(), null);
 
-        $query = Author::select($fields)
-            ->where('name', 'ilike', '%'.$search.'%')
-            ->orderBy($orderBy, $sort);
-
         if ($isPaginate == 'true')
         {
-            $data = $query->paginate($perPage);
+            $data = $this->author->getPaginate($fields, $perPage, $search, $orderBy, $sort);
         } else {
-            $data = $query->limit($perPage)->get();
+            $data = $this->author->get($fields, $perPage, $search, $orderBy, $sort);
         }
         
         return $this->sendResponse(200, true, 'Author retrieved successfully', null, $data);
@@ -144,7 +147,7 @@ class AuthorController extends Controller
             return $this->sendResponse(400, false, 'There\'s something wrong with your request', $validator->errors(), null);       
         }
    
-        $author = Author::create($input);
+        $author = $this->author->create($input);
    
         return $this->sendResponse(201, true, 'Author created successfully', null, $author);
     }
@@ -201,7 +204,7 @@ class AuthorController extends Controller
         $fields = explode(',', $selectField);
         $fields = checkArrInArr($fields, Author::fields(), null);
 
-        $data = Author::find($id, $fields);
+        $data = $this->author->findById($id, $fields);
 
         if (is_null($data))
         {
@@ -276,15 +279,17 @@ class AuthorController extends Controller
             return $this->sendResponse(400, false, 'There\'s something wrong with your request', $validator->errors(), null);       
         }
 
-        $data = Author::find($id);
+        $data = $this->author->findById($id, Author::fields());
 
         if (is_null($data))
         {
             return $this->sendResponse(404, false, 'Author not found', null, null);
         }
-   
-        $data['name'] = $input['name'];
-        $data->save();
+    
+        $update['name'] = $input['name'];
+        $data->name = $input['name'];
+
+        $this->author->update($id, $update);
    
         return $this->sendResponse(200, true, 'Author updated successfully', null, $data);
     }
@@ -329,7 +334,7 @@ class AuthorController extends Controller
             return $this->sendResponse(404, false, 'Author not found', null, null);
         }
 
-        Author::where('id', $id)->delete();
+        $this->author->delete($id);
         return $this->sendResponse(200, true, 'Author deleted successfully', null, null);
     }
 }
