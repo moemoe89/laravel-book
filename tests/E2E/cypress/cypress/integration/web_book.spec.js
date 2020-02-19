@@ -26,6 +26,48 @@ describe('Book Web Test', function() {
     authorName = name
   })
 
+  it('create-author-id-empty', function() {
+    const baseURL = Constants.URL
+    const author_id = ''
+    const title = 'Test Title'
+
+    cy.visit(baseURL+'/book')
+    cy.wait(1000)
+    cy.get('.add-book').click()
+    cy.wait(1000)
+
+    cy.get('input[name=title]').type(`${title}{enter}`)
+    cy.get('form').should('contain', 'The author id field is required.')
+  })
+
+  it('create-title-over-255', function() {
+    const baseURL = Constants.URL
+    const title = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+
+    cy.visit(baseURL+'/book')
+    cy.wait(1000)
+    cy.get('.add-book').click()
+    cy.wait(1000)
+
+    cy.get('select').select(authorName)
+    cy.get('input[name=title]').type(`${title}{enter}`)
+    cy.get('form').should('contain', 'The title may not be greater than 255 characters.')
+  })
+
+  it('create-title-empty', function() {
+    const baseURL = Constants.URL
+    const title = ''
+
+    cy.visit(baseURL+'/book')
+    cy.wait(1000)
+    cy.get('.add-book').click()
+    cy.wait(1000)
+
+    cy.get('select').select(authorName)
+    cy.get('input[name=title]').type(`${title}{enter}`)
+    cy.get('form').should('contain', 'The title field is required.')
+  })
+
   it('create', function() {
   	const baseURL = Constants.URL
     const rand = new Date().getTime()

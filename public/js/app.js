@@ -2339,11 +2339,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       book: {},
-      authors: []
+      authors: [],
+      error: false,
+      errorMessage: '',
+      errors: {}
     };
   },
   created: function created() {
@@ -2362,7 +2374,9 @@ __webpack_require__.r(__webpack_exports__);
           name: 'book'
         });
       })["catch"](function (error) {
-        alert(error.response.data.message);
+        _this2.error = true;
+        _this2.errorMessage = error.response.data.message;
+        _this2.errors = error.response.data.errors;
       })["finally"](function () {
         return _this2.loading = false;
       });
@@ -2404,11 +2418,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       book: {},
-      authors: []
+      authors: [],
+      error: false,
+      errorMessage: '',
+      errors: {}
     };
   },
   created: function created() {
@@ -2436,7 +2462,9 @@ __webpack_require__.r(__webpack_exports__);
           name: 'book'
         });
       })["catch"](function (error) {
-        alert(error.response.data.message);
+        _this2.error = true;
+        _this2.errorMessage = error.response.data.message;
+        _this2.errors = error.response.data.errors;
       });
     }
   }
@@ -59298,6 +59326,16 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-6" }, [
+        _vm.error
+          ? _c("div", { staticClass: "alert alert-danger" }, [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.errorMessage) +
+                  "\n            "
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _c(
           "form",
           {
@@ -59309,78 +59347,108 @@ var render = function() {
             }
           },
           [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Author ID")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", [_vm._v("Author ID")]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.book.author_id,
+                        expression: "book.author_id"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { name: "author_id" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.book,
+                          "author_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  _vm._l(_vm.authors, function(author) {
+                    return _c(
+                      "option",
+                      { key: author.id, domProps: { value: author.id } },
+                      [_vm._v(_vm._s(author.name))]
+                    )
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _vm.errors.author_id
+                  ? _c("form-error", { attrs: { errors: _vm.errors } }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.author_id[0]) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", [_vm._v("Title")]),
+                _vm._v(" "),
+                _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.book.author_id,
-                      expression: "book.author_id"
+                      value: _vm.book.title,
+                      expression: "book.title"
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { name: "author_id" },
+                  attrs: { type: "text", name: "title" },
+                  domProps: { value: _vm.book.title },
                   on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.book,
-                        "author_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.book, "title", $event.target.value)
                     }
                   }
-                },
-                _vm._l(_vm.authors, function(author) {
-                  return _c(
-                    "option",
-                    { key: author.id, domProps: { value: author.id } },
-                    [_vm._v(_vm._s(author.name))]
-                  )
                 }),
-                0
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Title")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.book.title,
-                    expression: "book.title"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", name: "title" },
-                domProps: { value: _vm.book.title },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.book, "title", $event.target.value)
-                  }
-                }
-              })
-            ]),
+                _vm._v(" "),
+                _vm.errors.title
+                  ? _c("form-error", { attrs: { errors: _vm.errors } }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.title[0]) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
+              ],
+              1
+            ),
             _vm._v(" "),
             _c(
               "button",
@@ -59421,6 +59489,16 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-6" }, [
+        _vm.error
+          ? _c("div", { staticClass: "alert alert-danger" }, [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.errorMessage) +
+                  "\n            "
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _c(
           "form",
           {
@@ -59432,78 +59510,108 @@ var render = function() {
             }
           },
           [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Author ID")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", [_vm._v("Author ID")]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.book.author_id,
+                        expression: "book.author_id"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { name: "author_id" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.book,
+                          "author_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  _vm._l(_vm.authors, function(author) {
+                    return _c(
+                      "option",
+                      { key: author.id, domProps: { value: author.id } },
+                      [_vm._v(_vm._s(author.name))]
+                    )
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _vm.errors.author_id
+                  ? _c("form-error", { attrs: { errors: _vm.errors } }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.author_id[0]) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", [_vm._v("Title")]),
+                _vm._v(" "),
+                _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.book.author_id,
-                      expression: "book.author_id"
+                      value: _vm.book.title,
+                      expression: "book.title"
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { name: "author_id" },
+                  attrs: { type: "text", name: "title" },
+                  domProps: { value: _vm.book.title },
                   on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.book,
-                        "author_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.book, "title", $event.target.value)
                     }
                   }
-                },
-                _vm._l(_vm.authors, function(author) {
-                  return _c(
-                    "option",
-                    { key: author.id, domProps: { value: author.id } },
-                    [_vm._v(_vm._s(author.name))]
-                  )
                 }),
-                0
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Title")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.book.title,
-                    expression: "book.title"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", name: "title" },
-                domProps: { value: _vm.book.title },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.book, "title", $event.target.value)
-                  }
-                }
-              })
-            ]),
+                _vm._v(" "),
+                _vm.errors.title
+                  ? _c("form-error", { attrs: { errors: _vm.errors } }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.errors.title[0]) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
+              ],
+              1
+            ),
             _vm._v(" "),
             _c(
               "button",
