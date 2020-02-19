@@ -4,11 +4,18 @@ namespace App\Http\Controllers\API;
 
 use App\Book;
 use App\Http\Controllers\Controller;
+use App\Repositories\BookRepository;
 use Illuminate\Http\Request;
 use Validator;
 
 class BookController extends Controller
 {
+    protected $book;
+
+    public function __construct(BookRepository $book)
+    {
+        $this->book = $book;
+    }
     /**
      * @OA\GET(
      *     path="/api/v1/book",
@@ -87,17 +94,11 @@ class BookController extends Controller
         $fields = explode(',', $selectField);
         $fields = checkArrInArr($fields, Book::fields(), Book::aliases());
       
-        $query = Book::select($fields)
-            ->join('authors', 'authors.id', '=', 'books.author_id')
-            ->where('title', 'ilike', '%'.$search.'%')
-            ->orWhere('name', 'ilike', '%'.$search.'%')
-            ->orderBy($orderBy, $sort);
-
         if ($isPaginate == 'true')
         {
-            $data = $query->paginate($perPage);
+            $data = $this->book->getPaginate($fields, $perPage, $search, $orderBy, $sort);
         } else {
-            $data = $query->limit($perPage)->get();
+            $data = $this->book->get($fields, $perPage, $search, $orderBy, $sort);
         }
         
         return $this->sendResponse(200, true, 'Book retrieved successfully', null, $data);
@@ -147,7 +148,7 @@ class BookController extends Controller
             return $this->sendResponse(400, false, 'There\'s something wrong with your request', $validator->errors(), null);       
         }
    
-        $book = Book::create($input);
+        $book = $this->book->create($input);
    
         return $this->sendResponse(201, true, 'Book created successfully', null, $book);
     }
@@ -204,7 +205,7 @@ class BookController extends Controller
         $fields = explode(',', $selectField);
         $fields = checkArrInArr($fields, Book::fields(), Book::aliases());
 
-        $data = Book::join('authors', 'authors.id', '=', 'books.author_id')->find($id, $fields);
+        $data = $this->book->findById($id, $fields);
 
         if (is_null($data))
         {
@@ -280,16 +281,19 @@ class BookController extends Controller
             return $this->sendResponse(400, false, 'There\'s something wrong with your request', $validator->errors(), null);       
         }
 
-        $data = Book::find($id);
+        $data = $this->book->findById($id, Book::fields());
 
         if (is_null($data))
         {
             return $this->sendResponse(404, false, 'Book not found', null, null);
         }
    
-        $data['author_id'] = $input['author_id'];
-        $data['title'] = $input['title'];
-        $data->save();
+        $update['author_id'] = $input['author_id'];
+        $data->author_id = $input['author_id'];
+        $update['title'] = $input['title'];
+        $data->title = $input['title'];
+
+        $this->book->update($id, $update);
    
         return $this->sendResponse(200, true, 'Book updated successfully', null, $data);
     }
@@ -334,7 +338,7 @@ class BookController extends Controller
             return $this->sendResponse(404, false, 'Book not found', null, null);
         }
 
-        Book::where('id', $id)->delete();
+        $this->book->delete($id);
         return $this->sendResponse(200, true, 'Book deleted successfully', null, null);
     }
 }
