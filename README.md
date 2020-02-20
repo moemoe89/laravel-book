@@ -196,6 +196,11 @@ Available demo can find on this Heroku App
 https://yaraku-book.herokuapp.com
 ```
 
+### Todos
+
+ - Write Unit Test
+ - Support E2E Test on Docker
+
 License
 ----
 
