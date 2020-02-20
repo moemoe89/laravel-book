@@ -131,6 +131,19 @@ Generating the documentation if there's any changes on Swagger Annotation.
 ```sh
 $ php artisan l5-swagger:generate
 ```
+### Integration Testing
+
+Book management has Integration Testing using PHPUnit & sqlite for testing both the API
+Run this command for running the test:
+```sh
+$ vendor/phpunit/phpunit/phpunit
+```
+
+If running using docker:
+```sh
+docker-compose exec app vendor/phpunit/phpunit/phpunit
+```
+
 ### E2E Testing
 
 Book management has E2E Testing using Cypress for testing both the API & Web.
