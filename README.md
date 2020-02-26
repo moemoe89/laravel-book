@@ -149,9 +149,8 @@ docker-compose exec app vendor/phpunit/phpunit/phpunit
 Book management has E2E Testing using Cypress for testing both the API & Web.
 
 ```sh
-$ cd tests/E2E/cypress
 $ npm install
-$ ./node_modules/.bin/cypress open
+$ npx cypress open
 ```
 
 Easily command with make:
@@ -160,7 +159,7 @@ $ make e2e
 ```
 
 By default Cypress will be opened the GUI for run the test cases.
-The URL for Cypress do E2E testing configured on `tests/E2E/cypress/cypress/support/constant.js`.
+The URL for Cypress do E2E testing configured on `tests/E2E/cypress/support/constant.js`.
 For changing the URL, easily to change the value from URL Constants.
 ```sh
 const Constants = {
@@ -172,7 +171,7 @@ export default Constants
 ### Heroku
 
 Book management supported for Heroku deployment using Bitbucket pipelines.
-Changes the `HEROKU_API_KEY` & `HEROKU_APP_NAME` on your Bitbucket repository variables for auto deployment to your Heroku App.
+If you want to deploy automatically to Heroku from Bitbucket, changes the `HEROKU_API_KEY` & `HEROKU_APP_NAME` on your Bitbucket repository variables for auto deployment to your Heroku App.
 
 Setup the environment variables on Heroku setting page.
 ```sh
@@ -193,7 +192,7 @@ $  heroku run php artisan migrate --app {{heroku-app-name}}
 Available demo can find on this Heroku App
 
 ```sh
-https://yaraku-book.herokuapp.com
+https://momo-book.herokuapp.com
 ```
 
 ### Todos

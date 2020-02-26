@@ -6,6 +6,4 @@ run:
 	@php artisan serve
 
 e2e:
-	@cd tests/E2E/cypress && npm install && ./node_modules/.bin/cypress open
-
-
+	@npm install && npx cypress open

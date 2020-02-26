@@ -43,3 +43,11 @@ services:
       - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
       - 5433:5432
+
+  cypress:
+    build:
+      context: .
+      dockerfile: Dockerfile-cypress
+    depends_on:
+      - app
+    network_mode: 'host'
